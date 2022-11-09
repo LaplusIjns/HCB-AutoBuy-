@@ -1,6 +1,7 @@
 package immargin.hardware.HCB.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -65,5 +66,15 @@ public class MaintableService {
         abc[1] =(int) pageResult.getTotalElements();
         return abc;
     }
+	
+	public Optional<MaintableDTO> getProdname(String id) {
+	    Optional<MaintableDTO> result = null;
+	    result = maintableRepository.findMaintableDTOByProd_id(id);
+	     if(result!=null && !result.isEmpty()) {
+	         System.out.println(result.get());
+	         System.out.println(result.get().getProdname());
+	     }
+	    return result;
+	}
 
 }

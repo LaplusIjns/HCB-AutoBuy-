@@ -45,4 +45,12 @@ class HcbApplicationTests {
 //    void method5() {
 //        tagService.SearchbyTagname("cate_8270",0,20);
 //    }
+//	 @Test
+//  void method1() {
+//      maintableService.getProdname("prod_320384");
+//  }
+	 @Test
+  void method4() {
+      tagService.getTagname("cate_16050");
+  }
 }

@@ -11,12 +11,23 @@ function parseTime(inputTime){
 function Ajexgetitem(prod_id){
     return $.ajax({
 		type: "post",
+		url: "/findprod4/"+prod_id,
+		contentType:'charset=utf-8',
+		// data:datajson,
+		async: !1,
+	})
+}
+
+function Ajexgetitemname(prod_id){
+    return $.ajax({
+		type: "post",
 		url: "/findprod3/"+prod_id,
 		contentType:'charset=utf-8',
 		// data:datajson,
 		async: !1,
 	})
 }
+
 function getURLParam(){
 	var urlstring = location.href
     var url = new URL(urlstring)
@@ -54,6 +65,7 @@ function drawchart(datasheet){
 	var yValues = []
 	var historyhigh = datasheet[0]["price"];
 	var historylow = datasheet[0]["price"];
+	var lastprice = datasheet[datasheet.length-1]["price"];
 	var timetag = parseTime(datasheet[datasheet.length-1]["upload_date"]);
 	for(var i=0;i<datasheet.length;i++){
 		// tmp = {x:datasheet[i]["upload_date"],y:datasheet[i]["fk_prod_id"]};
@@ -112,18 +124,22 @@ function drawchart(datasheet){
 	  originallow = $("#historylow").text()
 	  console.log(originallow)
 	  originallastupdate = $("#lastupdate").text()
-	  $("#historylow").text(originallow + historylow)
-	  $("#historyhigh").text(originalhigh + historyhigh)
-	  $("#lastupdate").text(originallastupdate + timetag)
+	  $("#historylow").text(originallow + "$"+historylow)
+	  $("#historyhigh").text(originalhigh + "$"+historyhigh)
+	  $("#lastupdate").text(originallastupdate + timetag +" $"+lastprice)
 }
 
 $(function(){
 	prod_id = getURLParam();
 	console.log(prod_id)
-	var hellohowareyou = localStorage.getItem("prod_name");
+	var hellohowareyou = Ajexgetitemname(prod_id)["responseJSON"]["prodname"];
     document.getElementById("hellohowareyou").innerText = hellohowareyou;
 
+	// prod_name = 
+	// console.log(prod_name)
+
     datasheet= Ajexgetitem(prod_id)["responseJSON"];
+	console.log(datasheet)
 	drawchart(datasheet)
 
 	tagsheet = Ajexgetag(prod_id)

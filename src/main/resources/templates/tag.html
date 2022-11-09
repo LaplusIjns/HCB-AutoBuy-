@@ -29,26 +29,26 @@
 
 <body>
 
-  <main>
+  <main class="bgcolor">
     <row class="row container-fluid bgcolor">
-      <div class="col-8 ">
+      <div class="col-sm-8 col-md-10 col-12">
         <!-- form -->
-        <div class="m-5 " >
-            <div class="input-group mb-3 bgcolor">
-              <span class="input-group-text" id="">標籤ID</span>
-              <input type="text" id="searchbar" class="form-control" placeholder="此頁是標籤搜尋!" aria-label="Username"
+        <div class="m-sm-3 m-md-5 m-1" >
+            <div class="input-group mb-sm-3 bgcolor">
+              <span class="input-group-text fs-5" id="">標籤ID</span>
+              <input type="text" id="searchbar" class="form-control fs-5" onkeypress="handle(event)" placeholder="此頁是標籤搜尋!" aria-label="Username"
                 aria-describedby="searchbar">
-              <button id="prodsearch"  class="btn btn-info text-white mx-1 px-3"><i class="bi bi-search"></i><br><span class="">確定</span></button>
-              <button id="prepage"  class="btn btn-info text-white mx-1 px-3"><i class="bi bi-skip-backward-fill"></i><br><span class="">下頁</span></button>
-              <button id="nextpage"  class="btn btn-info text-white mx-1 px-3"><i class="bi bi-skip-forward-fill"></i><br><span class="">上頁</span></button>
             </div>
+            <button id="prodsearch"  class="btn btn-info text-white m-1 px-3"><i class="bi bi-search"></i><br><span class="">確定</span></button>
+              <button id="prepage"  class="btn btn-info text-white m-1 px-3"><i class="bi bi-skip-backward-fill"></i><br><span class="">下頁</span></button>
+              <button id="nextpage"  class="btn btn-info text-white m-1 px-3"><i class="bi bi-skip-forward-fill"></i><br><span class="">上頁</span></button>
         </div>
         <!--  -->
-        <div id="historySearch" class="p-2 text-white">
-          當前是標籤搜尋頁! 網址tagid用於帶入上面搜尋欄
+        <div id="historySearch" class="p-2 fs-4 text-white">
+          當前是標籤搜尋頁! 
         </div>
       </div>
-      <div class="col-3 p-5 text-white fs-4" id="totalpage">
+      <div class="col-sm-12 m-1 m-sm-5 text-white fs-4" id="totalpage">
       </div>
     </row>
     <row class="row bgcolor">

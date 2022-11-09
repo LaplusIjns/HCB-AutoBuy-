@@ -1,6 +1,7 @@
 package immargin.hardware.HCB.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -43,5 +44,14 @@ public class TagService {
         abc[1] = (int) pageResult.getTotalElements();
         
         return abc;
+    }
+    public Optional<TagnameDTO> getTagname(String name){
+        Optional<TagnameDTO> result = null;
+        result = tagRepository.findTagnameByfk_tag(name);
+        if(result!=null && !result.isEmpty()) {
+            System.out.println(result.get());
+            System.out.println(result.get().gettag_zhtw());
+        }
+        return result;
     }
 }

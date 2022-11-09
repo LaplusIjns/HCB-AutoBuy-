@@ -68,9 +68,99 @@ function setHistorysearch(x) {
 function searchProd() {
 	pageparam123 = 0;
 	var gettotal
+	var keyword
 	document.getElementById("prodsearch").onclick = (event) => {
 		pageparam123 = 0;
 		var x = document.querySelector("#searchbar").value
+		if(x==""){
+			alert("輸入點什麼");
+			return;
+		}
+		keyword = x
+		y = { "prodname": x };
+		datajson = JSON.stringify(y)
+		// console.log(datajson)
+		var getprod = AjaxgetProd(datajson, pageparam123)
+		gettotal = AjaxgetTotal(datajson, pageparam123)["responseJSON"]
+		console.log(gettotal)
+
+		// ["responseJSON"]
+		console.log(getprod["status"])
+		if (getprod["status"] == 200) {
+			setHistorysearch(x)
+			getprod = getprod["responseJSON"]
+			showresult(getprod)
+		} else {
+			console.log("im here")
+			$("#result").empty();
+			$("#result").text("查無結果");
+
+		}
+		$("#totalpage").text("當前搜尋"+keyword+" 總共 "+gettotal[1]+"件商品 共"+gettotal[0]+"頁"+"當前為第"+(pageparam123+1)+"頁")
+		event.preventDefault()
+	}	
+	document.getElementById("nextpage").onclick = (event) => {
+		// var x = document.querySelector("#searchbar").value
+		var x = keyword
+		if(x==""|| x==undefined)return
+		if (pageparam123 >= 0 && (pageparam123+1)<gettotal[0]) {
+			pageparam123 += 1;
+		}
+		// console.log(pageparam123);
+		y = { "prodname": x };
+		datajson = JSON.stringify(y)
+		console.log(datajson)
+		var getprod = AjaxgetProd(datajson, pageparam123)
+		// ["responseJSON"]
+		console.log(getprod["status"])
+		if (getprod["status"] == 200) {
+			getprod = getprod["responseJSON"]
+			showresult(getprod)
+		} else {
+			console.log("im here")
+			$("#result").empty();
+			$("#result").text("查無結果");
+
+		}
+		$("#totalpage").text("當前搜尋"+keyword+" 總共 "+gettotal[1]+"件商品 共"+gettotal[0]+"頁"+"當前為第"+(pageparam123+1)+"頁")
+		event.preventDefault()
+	}
+	document.getElementById("prepage").onclick = (event) => {
+		// var x = document.querySelector("#searchbar").value
+		var x = keyword
+		if(x==""|| x==undefined)return
+		if (pageparam123 > 0) {
+			pageparam123 -= 1;
+		}
+
+		console.log(x)
+		y = { "prodname": x };
+		datajson = JSON.stringify(y)
+		// console.log(datajson)
+		var getprod = AjaxgetProd(datajson, pageparam123)
+		// ["responseJSON"]
+		console.log(getprod["status"])
+		if (getprod["status"] == 200) {
+			getprod = getprod["responseJSON"]
+			showresult(getprod)
+		} else {
+			console.log("im here")
+			$("#result").empty();
+			$("#result").text("查無結果");
+
+		}
+		$("#totalpage").text("當前搜尋"+keyword+" 總共 "+gettotal[1]+"件商品 共"+gettotal[0]+"頁"+"當前為第"+(pageparam123+1)+"頁")
+		event.preventDefault()
+	}
+}
+function handle(e){
+	pageparam123 = 0;
+	var gettotal
+	var keyword
+	if(e.keyCode === 13){
+		document.activeElement.blur();
+		var x = document.querySelector("#searchbar").value
+		keyword = document.querySelector("#searchbar").value
 		if(x==""){
 			alert("輸入點什麼");
 			return;
@@ -94,62 +184,64 @@ function searchProd() {
 			$("#result").text("查無結果");
 
 		}
-		$("#totalpage").text("總共 "+gettotal[1]+"件商品 共"+gettotal[0]+"頁"+"當前為第"+(pageparam123+1)+"頁")
-		event.preventDefault()
-	}
-	document.getElementById("nextpage").onclick = (event) => {
-		var x = document.querySelector("#searchbar").value
-		if (pageparam123 >= 0) {
-			pageparam123 += 1;
+		$("#totalpage").text("當前搜尋"+keyword+" 總共 "+gettotal[1]+"件商品 共"+gettotal[0]+"頁"+"當前為第"+(pageparam123+1)+"頁")
+		document.getElementById("nextpage").onclick = (event) => {
+			// var x = document.querySelector("#searchbar").value
+			var x = keyword
+			if(x==""|| x==undefined)return
+			if (pageparam123 >= 0 && (pageparam123+1)<gettotal[0]) {
+				pageparam123 += 1;
+			}
+			y = { "prodname": x };
+			datajson = JSON.stringify(y)
+			// console.log(datajson)
+			var getprod = AjaxgetProd(datajson, pageparam123)
+			// ["responseJSON"]
+			console.log(getprod["status"])
+			if (getprod["status"] == 200) {
+				getprod = getprod["responseJSON"]
+				showresult(getprod)
+			} else {
+				console.log("im here")
+				$("#result").empty();
+				$("#result").text("查無結果");
+	
+			}
+			$("#totalpage").text("當前搜尋"+keyword+" 總共 "+gettotal[1]+"件商品 共"+gettotal[0]+"頁"+"當前為第"+(pageparam123+1)+"頁")
+			event.preventDefault()
 		}
-		console.log(pageparam123);
-		y = { "prodname": x };
-		datajson = JSON.stringify(y)
-		// console.log(datajson)
-		var getprod = AjaxgetProd(datajson, pageparam123)
-		// ["responseJSON"]
-		console.log(getprod["status"])
-		if (getprod["status"] == 200) {
-			getprod = getprod["responseJSON"]
-			showresult(getprod)
-		} else {
-			console.log("im here")
-			$("#result").empty();
-			$("#result").text("查無結果");
-
+		document.getElementById("prepage").onclick = (event) => {
+			// var x = document.querySelector("#searchbar").value
+			var x = keyword
+			if(x==""|| x==undefined)return
+			if (pageparam123 > 0) {
+				pageparam123 -= 1;
+			}
+			y = { "prodname": x };
+			datajson = JSON.stringify(y)
+			// console.log(datajson)
+			var getprod = AjaxgetProd(datajson, pageparam123)
+			// ["responseJSON"]
+			console.log(getprod["status"])
+			if (getprod["status"] == 200) {
+				getprod = getprod["responseJSON"]
+				showresult(getprod)
+			} else {
+				console.log("im here")
+				$("#result").empty();
+				$("#result").text("查無結果");
+	
+			}
+			$("#totalpage").text("當前搜尋"+keyword+" 總共 "+gettotal[1]+"件商品 共"+gettotal[0]+"頁"+"當前為第"+(pageparam123+1)+"頁")
+			event.preventDefault()
 		}
-		$("#totalpage").text("總共 "+gettotal[1]+"件商品 共"+gettotal[0]+"頁"+"當前為第"+(pageparam123+1)+"頁")
-		event.preventDefault()
-	}
-	document.getElementById("prepage").onclick = (event) => {
-		var x = document.querySelector("#searchbar").value
-		if (pageparam123 > 0) {
-			pageparam123 -= 1;
-		}
-		y = { "prodname": x };
-		datajson = JSON.stringify(y)
-		// console.log(datajson)
-		var getprod = AjaxgetProd(datajson, pageparam123)
-		// ["responseJSON"]
-		console.log(getprod["status"])
-		if (getprod["status"] == 200) {
-			getprod = getprod["responseJSON"]
-			showresult(getprod)
-		} else {
-			console.log("im here")
-			$("#result").empty();
-			$("#result").text("查無結果");
-
-		}
-		$("#totalpage").text("總共 "+gettotal[1]+"件商品 共"+gettotal[0]+"頁"+"當前為第"+(pageparam123+1)+"頁")
-		event.preventDefault()
 	}
 }
 function showresult(getprod) {
 	$("#result").empty();
 	console.log(getprod)
 	for (var i = 0; i < getprod.length; i++) {
-		$template = `<a href="./Product?prodid=${getprod[i]["prod_id"]}"><li class="SelectProduct" id=${getprod[i]["prod_id"]} ><div class="text-white">${getprod[i]['prodname']}</div></li></a>`;
+		$template = `<a href="./Product?prodid=${getprod[i]["prod_id"]}"><li class="SelectProduct" id=${getprod[i]["prod_id"]} ><div class="text-white mb-sm-1 mb-md-3 mb-5">${getprod[i]['prodname']}</div></li></a>`;
 		// console.log($template)
 		test = $($template)
 		test.appendTo("#result")
