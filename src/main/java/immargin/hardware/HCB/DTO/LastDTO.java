@@ -1,7 +1,7 @@
 package immargin.hardware.HCB.DTO;
 
 public interface LastDTO {
-	String getfk_prod_id();
+	String getfkProdId();
 	Integer getprice();
-	java.util.Date getupload_date();
+	java.util.Date getuploadDate();
 }

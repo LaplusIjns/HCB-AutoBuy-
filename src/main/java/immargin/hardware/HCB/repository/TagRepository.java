@@ -18,7 +18,7 @@ import immargin.hardware.HCB.model.Tagprod;
 
 @Repository
 public interface TagRepository extends JpaRepository<Tagprod,TagRelationshipId> {
-
+//  AutoBuy
     @Query(value="SELECT t.fk_tag,y.tag_zhtw from tag_prod t INNER JOIN tag_compare y ON y.tag_id = t.fk_tag WHERE t.fk_prod_id = ?1",nativeQuery = true)
     List<TagnameDTO> findByProdName(String name);
     
@@ -29,4 +29,16 @@ public interface TagRepository extends JpaRepository<Tagprod,TagRelationshipId> 
     
     @Query(value="SELECT * FROM tag_compare WHERE tag_id = ?1" ,nativeQuery = true)
     Optional<TagnameDTO> findTagnameByfk_tag(String tag_id);
+
+//  Sinya
+    @Query(value="SELECT t.fk_tag,y.tag_zhtw from sinyatag_prod t INNER JOIN sinyatag_compare y ON y.tag_id = t.fk_tag WHERE t.fk_prod_id = ?1",nativeQuery = true)
+    List<TagnameDTO> SinyafindByProdName(String name);
+    
+    @Query(value ="SELECT m.prod_id,m.prodname FROM `sinyatag_prod` t INNER JOIN sinyamaintable m ON t.fk_prod_id = m.prod_id WHERE t.fk_tag = ?1",
+            countQuery = "SELECT count(*) FROM `sinyatag_prod` t INNER JOIN sinyamaintable m ON t.fk_prod_id = m.prod_id WHERE t.fk_tag = ?1",
+            nativeQuery = true )
+    Page<MaintableDTO> SinyafindByTagName(String name,Pageable pageable);
+    
+    @Query(value="SELECT * FROM sinyatag_compare WHERE tag_id = ?1" ,nativeQuery = true)
+    Optional<TagnameDTO> SinyafindTagnameByfk_tag(String tag_id);
 }

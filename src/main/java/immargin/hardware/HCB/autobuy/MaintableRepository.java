@@ -1,21 +1,22 @@
-package immargin.hardware.HCB.repository;
+package immargin.hardware.HCB.autobuy;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import immargin.hardware.HCB.DTO.MaintableDTO;
-import immargin.hardware.HCB.model.Maintable;
 
 @Repository
-public interface MaintableRepository extends JpaRepository<Maintable,String> {
+public interface MaintableRepository extends JpaRepository<Maintable,String>,JpaSpecificationExecutor<Maintable> {
 
-	
+//    AutoBuy
 	@Query(value="SELECT m.prodname,m.prod_id from maintable m where m.prodname LIKE CONCAT('%',?1,'%')",countQuery ="SELECT count(*) from maintable AS m where m.prodname LIKE CONCAT('%',?1,'%')" ,nativeQuery = true)
 	Page<MaintableDTO> findByName(String name,Pageable pageable);
 	
@@ -36,7 +37,13 @@ public interface MaintableRepository extends JpaRepository<Maintable,String> {
 
 	@Query(value="SELECT m.prodname,m.prod_id from maintable m where m.prod_id = ?1" ,nativeQuery = true)
 	Optional<MaintableDTO> findMaintableDTOByProd_id(String Prod_id);
-
 	
+	@Query(value="SELECT * FROM `maintable` m WHERE m.inital_date = SUBDATE(CURRENT_DATE,?1)" ,nativeQuery = true)
+	List<MaintableDTO> DailyNew(Integer index);
+	
+//	@Query(nativeQuery = true)
+//    MaintableDTO findMaintableDTOByProdId(String Prod_id);
+	
+
 	
 }

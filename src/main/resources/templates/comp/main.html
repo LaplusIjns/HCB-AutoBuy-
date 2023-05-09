@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
+
+<!-- 	原始入口 -->
+<div class="row container-fluid bgcolor justify-content-center"
+	th:fragment="index1">
+	<div class="col-sm-8 col-md-10 col-12 d-flex justify-content-center">
+		<div class="m-sm-3 m-md-5 m-1 rounded">
+			<a href="/Autobuy">
+				<button class="btn btn-info text-white m-1 px-3 ">
+					<img class="adjustimg img-fluid"
+						src="https://i.imgur.com/jmPIwJk.png"><br>
+					<span class="">AutoBuy</span>
+				</button>
+			</a> <a href="/Sinya">
+				<button class="btn btn-info text-white m-1 px-3 ">
+					<img class="adjustimg img-fluid"
+						src="https://www.sinya.com.tw/images/favicon.ico"><br>
+					<span class="">欣亞</span>
+				</button>
+			</a>
+		</div>
+	</div>
+	<!--  -->
+</div>
+
+<!-- 入口施工區-->
+<div class="row container-fluid bgcolor justify-content-center"
+	th:fragment="work">
+	<div class="col-sm-8 col-md-10 col-12 d-flex justify-content-center">
+		<div class="m-sm-3 m-md-5 m-1 rounded fs-5 text-white">還在構思的首頁</div>
+	</div>
+	<!--  -->
+</div>
+
+<!-- 每日價格 -->
+<div class="row container-fluid bgcolor justify-content-center"
+	th:fragment="daily1">
+	<div class="row bgcolor">
+		<ul id="result" class="m-5 col-10 fs-4 text-white">
+			<!-- 			<a href="./Product?prodid="><li class="SelectProduct" id="產品id" ><div class="text-success mb-sm-1 mb-md-3 mb-5">產品名字 降價 123 元 現價 1000元</div></li></a> -->
+			<!-- 			<a href="./Product?prodid="><li class="SelectProduct" id="產品id" ><div class="text-danger mb-sm-1 mb-md-3 mb-5">產品名字 上漲 456 元 現價 2000元</div></li></a> -->
+		</ul>
+	</div>
+	<!--  -->
+</div>
+
+<!-- 每日新增 -->
+<div class="row container-fluid bgcolor justify-content-center"
+	th:fragment="dailynew1">
+	<div class="row bgcolor">
+		<ul id="result" class="m-5 col-10 fs-4 text-white">
+			<!-- 			<a href="./Product?prodid="><li class="SelectProduct" id="產品id" ><div class="text-success mb-sm-1 mb-md-3 mb-5">產品名字 降價 123 元 現價 1000元</div></li></a> -->
+			<!-- 			<a href="./Product?prodid="><li class="SelectProduct" id="產品id" ><div class="text-danger mb-sm-1 mb-md-3 mb-5">產品名字 上漲 456 元 現價 2000元</div></li></a> -->
+		</ul>
+	</div>
+	<!--  -->
+</div>
+
+</html>

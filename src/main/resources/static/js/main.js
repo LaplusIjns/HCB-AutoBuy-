@@ -1,11 +1,13 @@
 function AutoComplete() {
 	$("#searchbar").autocomplete({
 		source: function (request, response) {
-			console.log(request);
+			console.log(request.term);
 			$.ajax({
 				type: "post",
-				url: "/findprod/" + request.term,
+				url: "/findprod",
 				async: !1,
+				data: request.term,
+				contentType: 'application/json;charset=utf-8',
 				success: function (data) {
 					resval = []
 					for (var i = 0; i < data.length; i++) {
@@ -18,20 +20,24 @@ function AutoComplete() {
 	});
 }
 function AjaxgetProd(datajson, pageparam123) {
-	console.log(pageparam123)
+	datajson = JSON.parse(datajson)
+	datajson["page"] = pageparam123
+	datajson = JSON.stringify(datajson)
 	return $.ajax({
 		type: "post",
-		url: "/findprod2/" + pageparam123,
+		url: "/findprod2" ,
 		contentType: 'application/json;charset=utf-8',
 		data: datajson,
 		async: !1,
 	})
 }
 function AjaxgetTotal(datajson, pageparam123) {
-	console.log(pageparam123)
+	datajson = JSON.parse(datajson)
+	datajson["page"] = pageparam123
+	datajson = JSON.stringify(datajson)
 	return $.ajax({
 		type: "post",
-		url: "/total/" + pageparam123,
+		url: "/total",
 		contentType: 'application/json;charset=utf-8',
 		data: datajson,
 		async: !1,
@@ -288,7 +294,7 @@ function initHistory(){
 	
 }
 $(function () {
-	console.log("hello world");
+//	console.log("hello world!!!!!!!!!!!!!");
 	AutoComplete()
 	searchProd();
 	initHistory();

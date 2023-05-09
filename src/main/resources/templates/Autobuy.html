@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<!-- Google tag (gtag.js) -->
+<meta th:replace="~{/comp/library::googletag}" ></meta>
+<meta charset="UTF-8">
+<base th:href="@{/}">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- CSS -->
+<link rel="stylesheet" href="../../static/css/main.css" th:href="@{/css/main.css}" />
+<meta th:replace="~{/comp/library::maincss}" />
+<!-- JS -->
+<meta th:replace="~{/comp/library::mainjs}" />
+<script src="../../static/js/main.js" th:src="@{/js/main.js}" type="text/javascript"></script>
+  <title>Autobuy查詢</title>
+</head>
+
+<body>
+  <main class="bgcolor">
+  <nav th:replace="~{/comp/header.html::header2}">
+  		這裡是置頂
+  	</nav>
+    <row class="row container-fluid bgcolor">
+      <div class="col-sm-8 col-md-10 col-12">
+        <!-- form -->
+        <div class="m-sm-3 m-md-5 m-1">
+          <div class="input-group mb-sm-3 bgcolor ">
+            <span class="input-group-text fs-5" id="">商品名字</span>
+            <input type="text" id="searchbar" class="form-control fs-5" onkeypress="handle(event)"
+              placeholder="Autobuy商品查詢 關鍵字請用空格區分" aria-label="Username" aria-describedby="searchbar">
+          </div>
+          <button id="prodsearch" class="btn btn-info text-white m-1 px-3"><i class="bi bi-search"></i><br><span
+              class="">確定</span></button>
+          <button id="prepage" class="btn btn-info text-white m-1 px-3 "><i
+              class="bi bi-skip-backward-fill"></i><br><span class="">下頁</span></button>
+          <button id="nextpage" class="btn btn-info text-white m-1 px-3 "><i
+              class="bi bi-skip-forward-fill"></i><br><span class="">上頁</span></button>
+        </div>
+        <!--  -->
+        <div id="historySearch" class="p-2 fs-4">
+          HelloWorld
+        </div>
+      </div>
+      <div class="col-sm-12 m-1 m-sm-5 text-white fs-4" id="totalpage">
+      </div>
+    </row>
+    <row class="row bgcolor">
+      <ul id="result" class="m-5 col-10 fs-4 text-white">
+
+      </ul>
+    </row>
+    
+    <footer th:replace="~{/comp/footer::footer1}">
+        	這裡是置底
+      </footer>
+  </main>
+
+</body>
+
+</html>

@@ -3,24 +3,24 @@
 
 <head>
 <!-- Google tag (gtag.js) -->
-<div th:replace="~{/comp/library::googletag}" />
+<meta th:replace="~{/comp/library::googletag}" />
 <meta charset="UTF-8">
 <base th:href="@{/}">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- CSS -->
 <link rel="stylesheet" href="../../static/css/main.css" th:href="@{/css/main.css}" />
-<div th:replace="~{/comp/library::maincss}" />
+<meta th:replace="~{/comp/library::maincss}" />
 <!-- JS -->
-<div th:replace="~{/comp/library::mainjs}" />
-<script src="../../static/js/tag.js" th:src="@{/js/tag.js}" type="text/javascript"></script>
-
+<meta th:replace="~{/comp/library::mainjs}" />
+<script src="../../static/js/Sinyatag.js" th:src="@{/js/Sinyatag.js}" type="text/javascript"></script>
 
   <title>標籤搜尋</title>
 </head>
+
 <body>
   <main class="bgcolor">
-  <nav th:replace="~{/comp/header.html::header2}">這裡是置頂</nav>
+  	<nav th:replace="~{/comp/header.html::header2}">這裡是置頂</nav>
     <row class="row container-fluid bgcolor">
       <div class="col-sm-8 col-md-10 col-12">
         <!-- form -->
@@ -47,13 +47,9 @@
 
       </ul>
     </row>
-    <a href="javascript:window.scrollTo(0,0)">
-      <footer class="footer bg-secondary text-center text-white mt-auto fixed-bottom">
-          <!-- <div class="container-fluid"> -->
-          <span class="">有任何建議請mail yangg9476@gmail.com</span>
-          <!-- </div> -->
-      </footer>
-  </a>
+    <footer th:replace="~{/comp/footer::footer1}">
+        	這裡是置底
+    </footer>
   </main>
 
 </body>

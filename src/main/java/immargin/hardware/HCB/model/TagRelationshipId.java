@@ -2,28 +2,46 @@ package immargin.hardware.HCB.model;
 
 import java.io.Serializable;
 
+import immargin.hardware.HCB.sinya.SinyaTagcompare;
+import immargin.hardware.HCB.sinya.Sinyamaintable;
+
 
 
 public class TagRelationshipId implements Serializable{
 
-    private String fk_prod_id;
-    private String fk_tag;
-
-    public String getFk_prod_id() {
-        return fk_prod_id;
+//    private String fkProdId;
+//    private String fkTag;
+//    
+//    public String getFkProdId() {
+//        return fkProdId;
+//    }
+//    public void setFkProdId(String fkProdId) {
+//        this.fkProdId = fkProdId;
+//    }
+//    public String getFkTag() {
+//        return fkTag;
+//    }
+//    public void setFkTag(String fkTag) {
+//        this.fkTag = fkTag;
+//    }
+    private SinyaTagcompare sinyaTagcompares;
+    private Sinyamaintable fkProdId;
+    public SinyaTagcompare getSinyaTagcompares() {
+        return sinyaTagcompares;
     }
-
-    public void setFk_prod_id(String fk_prod_id) {
-        this.fk_prod_id = fk_prod_id;
+    public void setSinyaTagcompares(SinyaTagcompare sinyaTagcompares) {
+        this.sinyaTagcompares = sinyaTagcompares;
     }
-
-    public String getFk_tag() {
-        return fk_tag;
+    public Sinyamaintable getFkProdId() {
+        return fkProdId;
     }
-
-    public void setFk_tag(String fk_tag) {
-        this.fk_tag = fk_tag;
+    public void setFkProdId(Sinyamaintable fkProdId) {
+        this.fkProdId = fkProdId;
     }
+    
+    
+
+    
 
     
 }

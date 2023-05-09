@@ -1,0 +1,153 @@
+<html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
+<!--  -->
+<div th:fragment="form1">
+
+<div class="offcanvas offcanvas-start" tabindex="-1"
+		id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+		<div class="offcanvas-header offcanvasheadcolor">
+			<h5 class="offcanvas-title" id="offcanvasExampleLabel">
+				進階搜尋<i class="bi bi-sliders mx-2"></i>
+			</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+				aria-label="Close"></button>
+		</div>
+		<div class="offcanvas-body offcanvasbodycolor">
+				<form class="px-0 mx-0" id="form5">
+				
+					<div class="input-group mb-sm-3 offcanvasbodycolor ">
+            			<span class="input-group-text fs-5 rounded-0" id="">商品名字</span>
+            			<input type="text" id="formprodname" class="form-control fs-5 rounded-0" 
+              			placeholder="關鍵字請用空格區分" aria-label="Username" aria-describedby="searchbar" list="datalistOptions" >
+<!--               			<datalist id="datalistOptions" class="fs-5"> -->
+<!-- 						  <option value="San Francisco" style="color:red;">San Francisco</option> -->
+<!-- 						  <option value="New York">New York</option> -->
+<!-- 						  <option value="Seattle">Seattle</option> -->
+<!-- 						  <option value="Los Angeles">Los Angeles</option> -->
+<!-- 						  <option value="Chicago">Chicago</option> -->
+<!-- 						</datalist> -->
+          			</div>
+          			
+          			<div class="fs-5 mb-2">
+          				商品起始紀錄時間(選填)
+          			</div>
+          			
+					<div class="row px-0 mx-0">
+						<div class="col-5 px-0 mx-0">
+					                <div class="input-group date" id="datepicker1">
+					                <div class="input-group-append rounded-0">
+					                        <span class="input-group-text bg-white d-block">
+					                            <i class="bi bi-calendar-event"></i>
+					                        </span>
+					                    </div>
+					                    <input type="text" class="form-control rounded-0" id ="startDate">
+					                </div>
+			                 </div>
+			                 <div class="col-2 text-center px-0 mx-0">~
+			                 </div>
+			                 <div class="col-5 px-0 mx-0">
+			                <div class="input-group date" id="datepicker2">
+			                	<div class="input-group-append">
+			                        <span class="input-group-text bg-white d-block rounded-0">
+			                            <i class="bi bi-calendar-event"></i>
+			                        </span>
+			                    </div>
+			                    <input type="text" class="form-control rounded-0" id="endDate">
+			                </div>
+			                </div>
+			            </div>
+			            
+			            <div class="fs-5 mb-2 mt-1">
+          				商品最後更新時間(選填)
+          			</div>
+          			
+					<div class="row px-0 mx-0">
+						<div class="col-5 px-0 mx-0">
+					                <div class="input-group date" id="datepicker3">
+					                <div class="input-group-append">
+					                        <span class="input-group-text bg-white d-block rounded-0">
+					                            <i class="bi bi-calendar-event-fill"></i>
+					                        </span>
+					                    </div>
+					                    <input type="text" class="form-control rounded-0" id="startUpdate">
+					                </div>
+			                 </div>
+			                 <div class="col-2 text-center px-0 mx-0">~
+			                 </div>
+			                 <div class="col-5 px-0 mx-0">
+			                <div class="input-group date" id="datepicker4">
+			                	<div class="input-group-append">
+			                        <span class="input-group-text bg-white d-block rounded-0">
+			                            <i class="bi bi-calendar-event-fill"></i>
+			                        </span>
+			                    </div>
+			                    <input type="text" class="form-control rounded-0" id="endUpdate">
+			                </div>
+			                </div>
+			            </div>
+			            
+			            <div class="form-check fs-5 mt-3 mb-2">
+						  <input class="form-check-input rounded-0" type="checkbox" value="" id="sevenDay" checked>
+						  <label class="form-check-label" for="sevenDay">
+						    移除7天未更新商品
+						  </label>
+						</div>
+						
+						<div class="form-check fs-5 mt-3 mb-2">
+						  <input class="form-check-input rounded-0" type="checkbox" value="" id="multiProd" checked>
+						  <label class="form-check-label" for="multiProd">
+						    移除可能包含複數單一商品
+						  </label>
+						</div>
+						
+						<div class="row px-0 mx-0">
+						<div class="col-5 px-0 mx-0">
+					                <div class="input-group">
+					                <div class="input-group-append">
+					                        <span class="input-group-text bg-white d-block rounded-0">
+					                            <i class="bi bi-currency-dollar"></i>
+					                        </span>
+					                    </div>
+					                    <input type="number" class="form-control rounded-0" id="startPrice">
+					                </div>
+			                 </div>
+			                 <div class="col-2 text-center px-0 mx-0">~
+			                 </div>
+			                 <div class="col-5 px-0 mx-0">
+			                <div class="input-group ">
+			                	<div class="input-group-append">
+			                        <span class="input-group-text bg-white d-block rounded-0">
+			                            <i class="bi bi-currency-dollar"></i>
+			                        </span>
+			                    </div>
+			                    <input type="number" class="form-control rounded-0" id="endPrice">
+			                </div>
+			                </div>
+			            </div>
+				</form>
+				 <button id="prodsearch222" class="btn btn-secondary text-white m-3 px-3 rounded-0"><i class="bi bi-search"></i><br><span
+              class="">確定</span></button>
+              
+              <div id="historySearch1" class="p-2 fs-4">
+              <div class="btn-group   border border-secondary border-2 rounded-0" role="group">
+              <span class="historyfind  p-2 ">asus</span><button class="removethisbar btn btn-secondary rounded-0">Ｘ</button>
+              </div>
+              <div class="btn-group   border border-secondary border-2 rounded-0" role="group">
+              <span class="historyfind  p-2 ">asus</span><button class="removethisbar btn btn-secondary rounded-0">Ｘ</button>
+              </div>
+<!--           HelloWorld -->
+        	</div>
+		</div>
+	</div>
+		<script type="text/javascript">
+    $(function() {
+        $('#datepicker1').datepicker();
+        $('#datepicker2').datepicker();
+        $('#datepicker3').datepicker();
+        $('#datepicker4').datepicker();
+        
+
+        
+    });
+</script>
+</div>
+<!--  -->

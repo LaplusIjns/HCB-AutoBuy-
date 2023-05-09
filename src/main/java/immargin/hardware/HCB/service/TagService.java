@@ -19,7 +19,7 @@ public class TagService {
     @Autowired
     TagRepository tagRepository;
     
-    
+//  Autobuy
     //搜尋產品ID找到TAG
     public List<TagnameDTO> SearchbyProdname(String name){
         List<TagnameDTO> result = null;
@@ -48,10 +48,37 @@ public class TagService {
     public Optional<TagnameDTO> getTagname(String name){
         Optional<TagnameDTO> result = null;
         result = tagRepository.findTagnameByfk_tag(name);
-        if(result!=null && !result.isEmpty()) {
-            System.out.println(result.get());
-            System.out.println(result.get().gettag_zhtw());
-        }
+        return result;
+    }
+//    Sinya
+  //搜尋產品ID找到TAG
+    public List<TagnameDTO> SinyaSearchbyProdname(String name){
+        List<TagnameDTO> result = null;
+        result = tagRepository.SinyafindByProdName(name);
+        return result;
+    }
+    //搜尋tag找id
+    public List<MaintableDTO> SinyaSearchbyTagname(String name,Integer page,Integer size){
+        List<MaintableDTO> result = null;
+        Pageable pageable=PageRequest.of(page, size);
+        result = tagRepository.SinyafindByTagName(name,pageable).getContent();
+        return result;
+    }
+    
+    //搜尋tag總元素
+    public int[] Sinyagettagtotal(String name,Integer page,Integer size){
+        Page<MaintableDTO> pageResult = null;
+        int[] abc= new int[2];
+        Pageable pageable=PageRequest.of(page, size);
+        pageResult = tagRepository.SinyafindByTagName(name, pageable);
+        abc[0] = pageResult.getTotalPages();
+        abc[1] = (int) pageResult.getTotalElements();
+        
+        return abc;
+    }
+    public Optional<TagnameDTO> SinyagetTagname(String name){
+        Optional<TagnameDTO> result = null;
+        result = tagRepository.SinyafindTagnameByfk_tag(name);
         return result;
     }
 }

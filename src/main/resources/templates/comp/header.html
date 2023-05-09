@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
+
+<header th:fragment="header1" class="text-white">
+	<p>hello world</p>
+</header>
+
+<nav th:fragment="header2"
+	class="sticky-top text-white bg-gray-dark navbarcolor">
+	<nav class="navbar navbar-expand  text-white px-5">
+		<div class="container-fluid">
+			<ul class="nav nav-pills me-auto te mx-1">
+				<li class="nav-item"><a class="nav-link text-white fs-4"
+					href="/">首頁</a></li>
+				<li class="nav-item">
+					<div class="dropdown">
+						<button class="dropdown-toggle nav-link text-white fs-4"
+							type="button" data-bs-toggle="dropdown" aria-expanded="false">AutoBuy</button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+							<li><a class="dropdown-item" href="./Autobuy">商品查詢</a></li>
+							<li><a class="dropdown-item" href="./tag">標籤查詢</a></li>
+							<li><a class="dropdown-item" href="./Dailynew">每日新增</a></li>
+							<li><a class="dropdown-item" href="./AutobuyDaily">每日異動</a></li>
+						</ul>
+					</div>
+				</li>
+				<li class="nav-item">
+					<div class="dropdown">
+						<button class="dropdown-toggle nav-link text-white fs-4"
+							type="button" data-bs-toggle="dropdown" aria-expanded="false">欣亞</button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+							<li><a class="dropdown-item" href="Sinya">商品查詢</a></li>
+							<li><a class="dropdown-item" href="Sinyatag">標籤查詢</a></li>
+							<li><a class="dropdown-item" href="./SinyaDailynew">每日新增</a></li>
+							<li><a class="dropdown-item" href="SinyaDaily">每日異動</a></li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+
+			<!-- 靠右 -->
+			<div class="d-flex">
+				<div class="btn-group " role="group">
+					<p>預留區</p>
+				</div>
+			</div>
+		</div>
+		<!--  -->
+	</nav>
+</nav>
+
+<nav th:fragment="header3"
+	class="sticky-top text-white bg-gray-dark navbarcolor">
+	<nav class="navbar navbar-expand  text-white px-5">
+		<div class="container-fluid">
+			<ul class="nav nav-pills me-auto te mx-1">
+				<li class="nav-item"><a class="nav-link text-white fs-4 "
+					data-bs-toggle="offcanvas" href="#offcanvasExample"
+					aria-controls="offcanvasExample"><i class="bi bi-list"></i>側邊</a></li>
+
+				<li class="nav-item"><a class="nav-link text-white fs-4"
+					href="/">首頁</a></li>
+				<li class="nav-item">
+					<div class="dropdown">
+						<button class="dropdown-toggle nav-link text-white fs-4"
+							type="button" data-bs-toggle="dropdown" aria-expanded="false">AutoBuy</button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+							<li><a class="dropdown-item" href="./Autobuy">商品查詢</a></li>
+							<li><a class="dropdown-item" href="./tag">標籤查詢</a></li>
+							<li><a class="dropdown-item" href="./Dailynew">每日新增</a></li>
+							<li><a class="dropdown-item" href="./AutobuyDaily">每日異動</a></li>
+						</ul>
+					</div>
+				</li>
+				<li class="nav-item">
+					<div class="dropdown">
+						<button class="dropdown-toggle nav-link text-white fs-4"
+							type="button" data-bs-toggle="dropdown" aria-expanded="false">欣亞</button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+							<li><a class="dropdown-item" href="Sinya">商品查詢</a></li>
+							<li><a class="dropdown-item" href="Sinyatag">標籤查詢</a></li>
+							<li><a class="dropdown-item" href="./SinyaDailynew">每日新增</a></li>
+							<li><a class="dropdown-item" href="SinyaDaily">每日異動</a></li>
+						</ul>
+					</div>
+				</li>
+			</ul>
+
+			<!-- 靠右 -->
+			<div class="d-flex">
+				<div class="btn-group " role="group">
+					<p>預留區</p>
+				</div>
+			</div>
+		</div>
+		<!--  -->
+	</nav>
+	<div th:replace="~{/comp/form::form1}"></div>
+</nav>
+
+</html>

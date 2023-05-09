@@ -14,13 +14,14 @@
 <!-- JS -->
 <meta th:replace="~{/comp/library::mainjs}" />
 <script src="../../static/js/main.js" th:src="@{/js/main.js}" type="text/javascript"></script>
-<title>HCB首頁</title>
+<script src="../../static/js/dailynew.js" th:src="@{/js/dailynew.js}" type="text/javascript"></script>
+<title>每日新增</title>
 </head>
 <body>
 
 	<main class="bgcolor">
 		<nav th:replace="~{/comp/header.html::header2}">這裡是置頂</nav>
-		<div th:replace="~{/comp/main.html::work}">主體</div>
+		<div th:replace="~{/comp/main.html::dailynew1}">主體</div>
 		<footer th:replace="~{/comp/footer::footer1}"> 這裡是置底 </footer>
 	</main>
 

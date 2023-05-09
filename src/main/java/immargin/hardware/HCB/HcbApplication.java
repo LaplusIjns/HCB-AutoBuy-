@@ -13,13 +13,11 @@ public class HcbApplication extends WebMvcConfigurationSupport {
 		SpringApplication.run(HcbApplication.class, args);
 	}
 
-	@Override
-	protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/css/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX+"/static/css/");
-		registry.addResourceHandler("/js/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX+"/static/js/");
-		super.addResourceHandlers(registry);
-	}
+//	@Override
+//	protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+//		registry.addResourceHandler("/css/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX+"/static/css/");
+//		registry.addResourceHandler("/js/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX+"/static/js/");
+//		super.addResourceHandlers(registry);
+//	}
 	
-	
-
 }

@@ -11,7 +11,7 @@ function parseTime(inputTime){
 function Ajexgetitem(prod_id){
     return $.ajax({
 		type: "post",
-		url: "/findprod4/"+prod_id,
+		url: "/Sinyafindprod4/"+prod_id,
 		contentType:'charset=utf-8',
 		// data:datajson,
 		async: !1,
@@ -21,7 +21,7 @@ function Ajexgetitem(prod_id){
 function Ajexgetitemname(prod_id){
     return $.ajax({
 		type: "post",
-		url: "/findprod3/"+prod_id,
+		url: "/Sinyafindprod3/"+prod_id,
 		contentType:'charset=utf-8',
 		// data:datajson,
 		async: !1,
@@ -38,7 +38,7 @@ function getURLParam(){
 function Ajexgetag(prod_id){
     return $.ajax({
 		type: "post",
-		url: "/tag/"+prod_id,
+		url: "/Sinyatag/"+prod_id,
 		contentType:'charset=utf-8',
 		// data:datajson,
 		async: !1,
@@ -48,7 +48,7 @@ function drawtag(tagsheet){
 
 	$("#tagsection").empty();
 	for(var i =0;i<tagsheet.length;i++){
-		template = `<a href="./tag?tagid=${tagsheet[i].fk_tag}"><div value='${tagsheet[i].fk_tag}' class='tagbar m-1 btn btn-primary'>${tagsheet[i].tag_zhtw}</div></a>`;
+		template = `<a href="./Sinyatag?tagid=${tagsheet[i].fk_tag}"><div value='${tagsheet[i].fk_tag}' class='tagbar m-1 btn btn-primary'>${tagsheet[i].tag_zhtw}</div></a>`;
 		$(template).appendTo("#tagsection")
 	}
 	// $(".tagbar").click(function () {
