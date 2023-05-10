@@ -167,7 +167,7 @@ public class MaintableService {
         //formData.getpage
         Pageable pageable=PageRequest.of(formData.getPage()-1, 20);
         SinyaSpecification sinyaSpecification = new SinyaSpecification(formData);
-        System.out.println( sinyaSpecification.toString() );
+//        System.out.println( sinyaSpecification.toString() );
         Page<Sinyamaintable> findall = sinyaMaintableRepository.findAll(sinyaSpecification,pageable);
         return findall;
     }
@@ -176,7 +176,7 @@ public class MaintableService {
         List<Sinyamaintable> Result = null;
         List<SinyaFormDTO> sinyaFormDTOList = new ArrayList<>();
         Result = sinyamaintablePage.getContent();
-        System.out.println(Result);
+//        System.out.println(Result);
         
         for (Sinyamaintable sinyamaintable : Result) {
             List<SinyaTagprod> sinyaTagprods = sinyamaintable.getSinyaTagprods();
@@ -217,7 +217,6 @@ public class MaintableService {
             if(formData.getProdName()!=null) {
                 String[] newStr = formData.getProdName().split("\\s+");
                 for(int i = 0; i<newStr.length;i++) {
-                    System.out.println(Constant.PERCENT+newStr[i]+Constant.PERCENT);
                     Predicate predicate = criteriaBuilder.like(prodname,Constant.PERCENT+newStr[i]+Constant.PERCENT);
                     predicateList.add(predicate);    
                 }

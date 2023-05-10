@@ -3,6 +3,8 @@ package immargin.hardware.HCB.Config;
 
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
@@ -20,11 +22,15 @@ public class ResponseFilter implements HandlerInterceptor {
     
     @Autowired
     BlacklistService blacklistService;
+    
+    
+    private static final Logger log = LoggerFactory.getLogger(ResponseFilter.class);
+
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-        
+        log.info("登入IP: {}",request.getLocalAddr());
         var blacklist =  blacklistService.findById(request.getLocalAddr());
         if(blacklist.isPresent()) {
             if(blacklist.get().getCountNumber().intValue()>=Constant.BAN_COUNT && !request.getRequestURI().equals(Constant.ICON_PATH) && !request.getRequestURI().equals(Constant.ERROR_PATH)) {
@@ -40,7 +46,9 @@ public class ResponseFilter implements HandlerInterceptor {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
             @Nullable ModelAndView modelAndView) throws Exception {
         // TODO Auto-generated method stub
-        if(response.getStatus()==HttpServletResponse.SC_NOT_FOUND && request.getMethod().equals(Constant.URL_METHOD_GET) && !request.getRequestURI().equals(Constant.ICON_PATH) && !request.getRequestURI().equals(Constant.ERROR_PATH) ) {
+        if(response.getStatus()==HttpServletResponse.SC_NOT_FOUND && request.getMethod().equals(Constant.URL_METHOD_GET) && !request.getRequestURI().equals(Constant.ICON_PATH) && !request.getRequestURI().equals(Constant.ERROR_PATH) 
+                && !request.getLocalAddr().startsWith("127.0.0.1") && !request.getLocalAddr().startsWith("192.168") && !request.getLocalAddr().startsWith("0:0:0:0:0:0:0:1")
+                ) {
             blacklistService.findById(request.getLocalAddr()).ifPresentOrElse(
                     blacklist -> {
                         if (CommoUtils.getDayFromTwoDate(new Date(), blacklist.getUpdateTime()) <= Constant.TIME_INTERVAL ) {
