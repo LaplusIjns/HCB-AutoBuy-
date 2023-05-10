@@ -30,8 +30,9 @@ public class ResponseFilter implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-        log.info("登入IP: {}",request.getLocalAddr());
-        var blacklist =  blacklistService.findById(request.getLocalAddr());
+        String realIP =  IpUtils.getIpAddr(request);
+        log.info("登入IP: {}",realIP);
+        var blacklist =  blacklistService.findById(realIP);
         if(blacklist.isPresent()) {
             if(blacklist.get().getCountNumber().intValue()>=Constant.BAN_COUNT && !request.getRequestURI().equals(Constant.ICON_PATH) && !request.getRequestURI().equals(Constant.ERROR_PATH)) {
                 blacklistService.update(blacklist.get(),request.getRequestURI());
@@ -46,17 +47,18 @@ public class ResponseFilter implements HandlerInterceptor {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
             @Nullable ModelAndView modelAndView) throws Exception {
         // TODO Auto-generated method stub
+        String realIP =  IpUtils.getIpAddr(request);
         if(response.getStatus()==HttpServletResponse.SC_NOT_FOUND && request.getMethod().equals(Constant.URL_METHOD_GET) && !request.getRequestURI().equals(Constant.ICON_PATH) && !request.getRequestURI().equals(Constant.ERROR_PATH) 
-                && !request.getLocalAddr().startsWith("127.0.0.1") && !request.getLocalAddr().startsWith("192.168") && !request.getLocalAddr().startsWith("0:0:0:0:0:0:0:1")
+                && !realIP.startsWith("127.0.0.1") && !realIP.startsWith("192.168") && !realIP.startsWith("0:0:0:0:0:0:0:1")
                 ) {
-            blacklistService.findById(request.getLocalAddr()).ifPresentOrElse(
+            blacklistService.findById(realIP).ifPresentOrElse(
                     blacklist -> {
                         if (CommoUtils.getDayFromTwoDate(new Date(), blacklist.getUpdateTime()) <= Constant.TIME_INTERVAL ) {
                             blacklistService.update(blacklist,request.getRequestURI());
                         }
                     },
                     () -> {
-                        blacklistService.save(new Blacklist(request.getLocalAddr(), 1, new Date(),Constant.DOT+request.getRequestURI()));
+                        blacklistService.save(new Blacklist(realIP, 1, new Date(),Constant.DOT+request.getRequestURI()));
                     });
         }
         HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);

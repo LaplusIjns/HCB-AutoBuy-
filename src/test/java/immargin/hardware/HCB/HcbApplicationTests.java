@@ -66,11 +66,11 @@ class HcbApplicationTests {
 //	void method1() {
 //		maintableService.blurSearchMaintable("asus",0,20);
 //	}
-    @Test
-    void method1() {
-        System.out.println(blacklistRepository.count());
-
-        System.out.println(commoUtils.getDayFromTwoDate(new Date(900000000), new Date()));
+//    @Test
+//    void method1() {
+//        System.out.println(blacklistRepository.count());
+//
+//        System.out.println(commoUtils.getDayFromTwoDate(new Date(900000000), new Date()));
 
 //      Blacklist tmp = new Blacklist("192.168.1.1", 1, new Date());
 //      System.out.println(blacklistRepository.save(tmp));
@@ -94,7 +94,7 @@ class HcbApplicationTests {
 //      System.out.println(tmp.isEmpty());
 //      System.out.println(tmp.get());
 
-    }
+//    }
 
 //	@Test
 //	void method2() {
@@ -134,34 +134,34 @@ class HcbApplicationTests {
 //    }
 //  }
 
-    @Test
-    void method7() {
-        Specification<Maintable> specification = new Specification<Maintable>() {
-
-            @Override
-            @Nullable
-            public Predicate toPredicate(Root<Maintable> root, CriteriaQuery<?> query,
-                    CriteriaBuilder criteriaBuilder) {
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                Path<Date>ca = root.get("inital_date");
-                Path<String> a = root.get("prodId");
-                Path<Date> b = root.get("last_update_date");
-                System.out.println(a);
+//    @Test
+//    void method7() {
+//        Specification<Maintable> specification = new Specification<Maintable>() {
+//
+//            @Override
+//            @Nullable
+//            public Predicate toPredicate(Root<Maintable> root, CriteriaQuery<?> query,
+//                    CriteriaBuilder criteriaBuilder) {
+//                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//                Path<Date>ca = root.get("inital_date");
+//                Path<String> a = root.get("prodId");
+//                Path<Date> b = root.get("last_update_date");
+//                System.out.println(a);
 //                Path<String> b = root.get("");
-                Date tmp2 = new Date(122, 8, 13);
-                System.out.println(tmp2);
-                String tmp = "prod_104287";
-                Predicate equal = criteriaBuilder.equal(a,tmp);
-                System.out.println(format.format(tmp2));
+//                Date tmp2 = new Date(122, 8, 13);
+//                System.out.println(tmp2);
+//                String tmp = "prod_104287";
+//                Predicate equal = criteriaBuilder.equal(a,tmp);
+//                System.out.println(format.format(tmp2));
 //                Predicate equal2 = criteriaBuilder.lessThanOrEqualTo(b,tmp2);
-                Predicate equal2 = criteriaBuilder.greaterThanOrEqualTo( ca ,tmp2);
+//                Predicate equal2 = criteriaBuilder.greaterThanOrEqualTo( ca ,tmp2);
 //                Predicate equal2 = criteriaBuilder.greaterThanOrEqualTo( ca.as(String.class) ,"2022-08-13");
 //                Predicate equal2 = criteriaBuilder.greaterThanOrEqualTo( ca.as(String.class) ,format.format(tmp2));
-                Predicate result = criteriaBuilder.or(equal,equal2);
+//                Predicate result = criteriaBuilder.or(equal,equal2);
 //                Predicate result = criteriaBuilder.and(equal2);
-                return result;
-            }
-        };
+//                return result;
+//            }
+//        };
 //        Sort sort = Sort.by(Sort.Direction.DESC, "prodId");
 
 //        List<Maintable>  all = maintableRepository.findAll(specification, sort);
@@ -179,4 +179,4 @@ class HcbApplicationTests {
 //        System.out.println(all.get(0).getInital_date());
 //        System.out.println(all.get(0).getLast_update_date());
     }
-}
+//}
