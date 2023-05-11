@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import immargin.hardware.HCB.Config.Constant;
 import immargin.hardware.HCB.model.Blacklist;
@@ -13,6 +14,7 @@ import immargin.hardware.HCB.repository.BlacklistRepository;
 
 @Service
 @Component
+@Transactional
 public class BlacklistService {
 
     @Autowired
@@ -32,9 +34,11 @@ public class BlacklistService {
         
         if(notIn)
         blacklist.setUrlPath(blacklist.getUrlPath()+Constant.DOT+urlPath);
+        
         blacklist.setCountNumber(blacklist.getCountNumber() + 1);
         blacklist.setUpdateTime(new Date());
         return blacklistRepository.save(blacklist);
+        
     }
     
     public Blacklist save(Blacklist blacklist) {

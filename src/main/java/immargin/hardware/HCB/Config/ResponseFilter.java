@@ -31,7 +31,6 @@ public class ResponseFilter implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         String realIP =  IpUtils.getIpAddr(request);
-        log.info("登入IP: {}",realIP);
         var blacklist =  blacklistService.findById(realIP);
         if(blacklist.isPresent()) {
             if(blacklist.get().getCountNumber().intValue()>=Constant.BAN_COUNT && !request.getRequestURI().equals(Constant.ICON_PATH) && !request.getRequestURI().equals(Constant.ERROR_PATH)) {
@@ -51,6 +50,7 @@ public class ResponseFilter implements HandlerInterceptor {
         if(response.getStatus()==HttpServletResponse.SC_NOT_FOUND && request.getMethod().equals(Constant.URL_METHOD_GET) && !request.getRequestURI().equals(Constant.ICON_PATH) && !request.getRequestURI().equals(Constant.ERROR_PATH) 
                 && !realIP.startsWith("127.0.0.1") && !realIP.startsWith("192.168") && !realIP.startsWith("0:0:0:0:0:0:0:1")
                 ) {
+            log.info("黑名單預備IP: {}",realIP);
             blacklistService.findById(realIP).ifPresentOrElse(
                     blacklist -> {
                         if (CommoUtils.getDayFromTwoDate(new Date(), blacklist.getUpdateTime()) <= Constant.TIME_INTERVAL ) {
