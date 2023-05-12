@@ -12,7 +12,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import immargin.hardware.HCB.DTO.MaintableDTO;
-import immargin.hardware.HCB.autobuy.Maintable;
+import immargin.hardware.HCB.model.Maintable;
+import immargin.hardware.HCB.model.Sinyamaintable;
 
 @Repository
 public interface SinyaMaintableRepository extends JpaRepository<Sinyamaintable,String>,JpaSpecificationExecutor<Sinyamaintable> {

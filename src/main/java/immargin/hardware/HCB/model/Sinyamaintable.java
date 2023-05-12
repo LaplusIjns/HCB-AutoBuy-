@@ -1,4 +1,4 @@
-package immargin.hardware.HCB.sinya;
+package immargin.hardware.HCB.model;
 
 import java.util.List;
 

@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import immargin.hardware.HCB.DTO.MaintableDTO;
+import immargin.hardware.HCB.model.Maintable;
 
 @Repository
 public interface MaintableRepository extends JpaRepository<Maintable,String>,JpaSpecificationExecutor<Maintable> {

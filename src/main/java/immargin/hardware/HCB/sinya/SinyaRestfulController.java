@@ -20,21 +20,22 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 
 import immargin.hardware.HCB.DTO.DailyDTO;
+import immargin.hardware.HCB.DTO.FormData;
 import immargin.hardware.HCB.DTO.LastDTO;
 import immargin.hardware.HCB.DTO.MaintableDTO;
 import immargin.hardware.HCB.DTO.SinyaFormDTO;
 import immargin.hardware.HCB.DTO.TagnameDTO;
-import immargin.hardware.HCB.autobuy.Maintable;
-import immargin.hardware.HCB.model.FormData;
+import immargin.hardware.HCB.autobuy.AutobuyMaintableService;
+import immargin.hardware.HCB.model.Maintable;
+import immargin.hardware.HCB.model.Sinyamaintable;
 import immargin.hardware.HCB.service.LastService;
-import immargin.hardware.HCB.service.MaintableService;
 import immargin.hardware.HCB.service.TagService;
 
 @RestController
 @RequestMapping
 public class SinyaRestfulController {
 	@Autowired
-	MaintableService maintableService;
+	SinyaMaintableService sinyaMaintableService;
 	@Autowired
 	LastService lastService;
 	@Autowired
@@ -46,7 +47,7 @@ public class SinyaRestfulController {
     //搜尋欄 模糊搜
     @PostMapping(path = {"/Sinyafindprod"})
     public ResponseEntity<?> SinyafindProdname(@RequestBody String id) {
-        List<MaintableDTO> result = maintableService.SinyablurSearchMaintable(id, 0, 20);
+        List<MaintableDTO> result = sinyaMaintableService.SinyablurSearchMaintable(id, 0, 20);
         if(result!=null && !result.isEmpty()) {
             return ResponseEntity.ok(result);
         }else {
@@ -59,7 +60,7 @@ public class SinyaRestfulController {
     public ResponseEntity<?> SinyafindProdname2(@RequestBody Maintable bean) {
         log.info("使用者查詢: {}",bean.getProdname());
         List<MaintableDTO> result =null;
-        result = maintableService.SinyablurSearchMaintable(bean.getProdname(),Integer.valueOf( bean.getPage() ), 20);
+        result = sinyaMaintableService.SinyablurSearchMaintable(bean.getProdname(),Integer.valueOf( bean.getPage() ), 20);
         if(result!=null && !result.isEmpty()) {
             return ResponseEntity.ok(result);
         }else {
@@ -70,7 +71,7 @@ public class SinyaRestfulController {
     @PostMapping(path = {"/Sinyatotal/{pageparam}"})
     public ResponseEntity<?> Sinyafindtotal(@RequestBody Maintable bean,@PathVariable(name="pageparam") Integer page) {
         int[] result =null;
-        result = maintableService.Sinyagettotal(bean.getProdname(), page, 20);
+        result = sinyaMaintableService.Sinyagettotal(bean.getProdname(), page, 20);
         if(result!=null) {
             return ResponseEntity.ok(result);
         }else {
@@ -93,7 +94,7 @@ public class SinyaRestfulController {
     @PostMapping(path = {"/Sinyafindprod3/{prodname}"})
     public ResponseEntity<?> SinyafindProdname3(@PathVariable(name="prodname") String id) {
         Optional<MaintableDTO> result=null;
-        result = maintableService.SinyagetProdname(id);
+        result = sinyaMaintableService.SinyagetProdname(id);
         if(result!=null && result.isPresent()) {
             log.info("使用者點選商品: {}",result.get().getProdname());
             return ResponseEntity.ok(result.get());
@@ -166,7 +167,7 @@ public class SinyaRestfulController {
     @PostMapping(path = {"/Sinyadailynew/{index}"})
     public ResponseEntity<?> findSinyaDailynew(@PathVariable Integer index) {
         List<MaintableDTO> result=null;
-        result = maintableService.SinyaDailyNew(index);
+        result = sinyaMaintableService.SinyaDailyNew(index);
         if(result!=null && !result.isEmpty()) {
             return ResponseEntity.ok(result);
         }else {
@@ -178,8 +179,8 @@ public class SinyaRestfulController {
     public ResponseEntity<?> SinyaForm(@RequestBody FormData formData) {
         List<SinyaFormDTO> result=null;
 
-        Page<Sinyamaintable> SinyamaintablePage = maintableService.getSinyamaintablePage(formData);
-        result = maintableService.parseSinyamaintablePage(SinyamaintablePage);
+        Page<Sinyamaintable> SinyamaintablePage = sinyaMaintableService.getSinyamaintablePage(formData);
+        result = sinyaMaintableService.parseSinyamaintablePage(SinyamaintablePage);
         Map<String, Object> result2 = new HashMap<>();
         result2.put("produts", result);
         result2.put("totalnumber", SinyamaintablePage.getTotalElements());

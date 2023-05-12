@@ -20,14 +20,14 @@ import org.thymeleaf.util.ListUtils;
 import immargin.hardware.HCB.Config.CommoUtils;
 import immargin.hardware.HCB.DTO.DailyDTO;
 import immargin.hardware.HCB.DTO.MaintableDTO;
-import immargin.hardware.HCB.autobuy.Maintable;
+import immargin.hardware.HCB.autobuy.AutobuyMaintableService;
 import immargin.hardware.HCB.autobuy.MaintableRepository;
 import immargin.hardware.HCB.model.Blacklist;
+import immargin.hardware.HCB.model.Maintable;
 import immargin.hardware.HCB.repository.BlacklistRepository;
 import immargin.hardware.HCB.repository.LastRepository;
 import immargin.hardware.HCB.service.BlacklistService;
 import immargin.hardware.HCB.service.LastService;
-import immargin.hardware.HCB.service.MaintableService;
 import immargin.hardware.HCB.service.TagService;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -38,7 +38,7 @@ import jakarta.persistence.criteria.Root;
 @SpringBootTest
 class HcbApplicationTests {
     @Autowired
-    MaintableService maintableService;
+    AutobuyMaintableService maintableService;
     @Autowired
     LastService lastService;
     @Autowired

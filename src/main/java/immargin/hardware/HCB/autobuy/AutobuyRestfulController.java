@@ -17,20 +17,20 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 
 import immargin.hardware.HCB.DTO.DailyDTO;
+import immargin.hardware.HCB.DTO.FormData;
 import immargin.hardware.HCB.DTO.LastDTO;
 import immargin.hardware.HCB.DTO.MaintableDTO;
 import immargin.hardware.HCB.DTO.TagnameDTO;
-import immargin.hardware.HCB.model.FormData;
+import immargin.hardware.HCB.model.Maintable;
+import immargin.hardware.HCB.model.Sinyamaintable;
 import immargin.hardware.HCB.service.LastService;
-import immargin.hardware.HCB.service.MaintableService;
 import immargin.hardware.HCB.service.TagService;
-import immargin.hardware.HCB.sinya.Sinyamaintable;
 
 @RestController
 @RequestMapping
 public class AutobuyRestfulController {
 	@Autowired
-	MaintableService maintableService;
+	AutobuyMaintableService maintableService;
 	@Autowired
 	LastService lastService;
 	@Autowired

@@ -1,4 +1,4 @@
-package immargin.hardware.HCB.sinya;
+package immargin.hardware.HCB.model;
 
 import org.springframework.stereotype.Component;
 

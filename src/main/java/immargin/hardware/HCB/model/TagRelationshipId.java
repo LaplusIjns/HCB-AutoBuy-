@@ -2,9 +2,6 @@ package immargin.hardware.HCB.model;
 
 import java.io.Serializable;
 
-import immargin.hardware.HCB.sinya.SinyaTagcompare;
-import immargin.hardware.HCB.sinya.Sinyamaintable;
-
 
 
 public class TagRelationshipId implements Serializable{

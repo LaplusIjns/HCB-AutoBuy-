@@ -1,4 +1,4 @@
-package immargin.hardware.HCB.service;
+package immargin.hardware.HCB.sinya;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,17 +17,17 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import immargin.hardware.HCB.Config.Constant;
+import immargin.hardware.HCB.DTO.FormData;
 import immargin.hardware.HCB.DTO.MaintableDTO;
 import immargin.hardware.HCB.DTO.SinyaFormDTO;
 import immargin.hardware.HCB.DTO.TagDTO;
 import immargin.hardware.HCB.DTO.TagnameDTO;
-import immargin.hardware.HCB.autobuy.Maintable;
 import immargin.hardware.HCB.autobuy.MaintableRepository;
-import immargin.hardware.HCB.model.FormData;
+import immargin.hardware.HCB.model.Maintable;
+import immargin.hardware.HCB.model.SinyaTagcompare;
+import immargin.hardware.HCB.model.SinyaTagprod;
+import immargin.hardware.HCB.model.Sinyamaintable;
 import immargin.hardware.HCB.sinya.SinyaMaintableRepository;
-import immargin.hardware.HCB.sinya.SinyaTagcompare;
-import immargin.hardware.HCB.sinya.SinyaTagprod;
-import immargin.hardware.HCB.sinya.Sinyamaintable;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
@@ -37,71 +37,13 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
 @Service
-public class MaintableService {
+public class SinyaMaintableService {
 	
-	
-	@Autowired
-	private MaintableRepository maintableRepository;
+
 	@Autowired
     private SinyaMaintableRepository sinyaMaintableRepository;
-//	AutoBuy
-	//搜尋欄
-	public List<MaintableDTO> blurSearchMaintable(String prodname,int page,int size){
-		List<MaintableDTO> pageResult = null;
-		Pageable pageable=PageRequest.of(page, size);
-		String[] newStr = prodname.split("\\s+");
-		if(newStr.length==1) {
-		pageResult =maintableRepository.findByName(prodname,pageable).getContent();
-		}else if(newStr.length==2){
-		pageResult =maintableRepository.findByName2(newStr[0],newStr[1],pageable).getContent();
-		}else if(newStr.length==3){
-			pageResult =maintableRepository.findByName3(newStr[0],newStr[1],newStr[2],pageable).getContent();
-		}else if(newStr.length==4){
-            pageResult =maintableRepository.findByName4(newStr[0],newStr[1],newStr[2],newStr[3],pageable).getContent();
-        }else if(newStr.length==5){
-            pageResult =maintableRepository.findByName5(newStr[0],newStr[1],newStr[2],newStr[3],newStr[4],pageable).getContent();
-        }else {
-            pageResult =maintableRepository.findByName6(newStr[0],newStr[1],newStr[2],newStr[3],newStr[4],newStr[5],pageable).getContent();
-        }
-		return pageResult;
-	}
-	
-	//搜尋總頁數元素
-	public int[] gettotal(String prodname,int page,int size){
-        Page<MaintableDTO> pageResult = null;
-        int[] abc= new int[2];
-        Pageable pageable=PageRequest.of(page, size);
-        String[] newStr = prodname.split("\\s+");
-        if(newStr.length==1) {
-        pageResult =maintableRepository.findByName(prodname,pageable);
-        }else if(newStr.length==2){
-        pageResult =maintableRepository.findByName2(newStr[0],newStr[1],pageable);
-        }else if(newStr.length==3){
-            pageResult =maintableRepository.findByName3(newStr[0],newStr[1],newStr[2],pageable);
-        }else if(newStr.length==4){
-            pageResult =maintableRepository.findByName4(newStr[0],newStr[1],newStr[2],newStr[3],pageable);
-        }else if(newStr.length==5){
-            pageResult =maintableRepository.findByName5(newStr[0],newStr[1],newStr[2],newStr[3],newStr[4],pageable);
-        }else {
-            pageResult =maintableRepository.findByName6(newStr[0],newStr[1],newStr[2],newStr[3],newStr[4],newStr[5],pageable);
-        }
-        pageResult.getTotalPages();
-        abc[0] = pageResult.getTotalPages();
-        abc[1] =(int) pageResult.getTotalElements();
-        return abc;
-    }
-	
-	public Optional<MaintableDTO> getProdname(String id) {
-	    Optional<MaintableDTO> result = null;
-	    result = maintableRepository.findMaintableDTOByProd_id(id);
-	    return result;
-	}
-	
-    public List<MaintableDTO> DailyNew(Integer index){
-        List<MaintableDTO> Result = null;
-        Result = maintableRepository.DailyNew(index);
-        return Result;
-    }
+
+
 	
 //	Sinya
 	//搜尋欄

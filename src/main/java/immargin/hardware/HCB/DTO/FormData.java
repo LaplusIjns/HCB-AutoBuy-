@@ -1,4 +1,4 @@
-package immargin.hardware.HCB.model;
+package immargin.hardware.HCB.DTO;
 
 import java.util.Date;
 

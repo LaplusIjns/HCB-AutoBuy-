@@ -1,4 +1,4 @@
-package immargin.hardware.HCB.sinya;
+package immargin.hardware.HCB.model;
 
 import java.util.List;
 
@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import immargin.hardware.HCB.model.TagRelationshipId;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
