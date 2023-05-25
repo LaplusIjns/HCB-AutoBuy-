@@ -1,6 +1,7 @@
 package immargin.hardware.HCB.DTO;
 
 import java.util.Date;
+import java.util.List;
 
 public class FormData {
 
@@ -14,7 +15,14 @@ public class FormData {
     private Integer minPrice;
     private Integer maxPrice;
     private Integer page;
+    private List<String> sortStrategy;
     
+    public List<String> getSortStrategy() {
+        return sortStrategy;
+    }
+    public void setSortStrategy(List<String> sortStrategy) {
+        this.sortStrategy = sortStrategy;
+    }
     
     public String getProdName() {
         return prodName;
@@ -79,6 +87,13 @@ public class FormData {
     public void setPage(Integer page) {
         this.page = page;
     }
+    @Override
+    public String toString() {
+        return "FormData [startUpdate=" + startUpdate + ", endUpdate=" + endUpdate + ", startDate=" + startDate
+                + ", endDate=" + endDate + ", prodName=" + prodName + ", minPrice=" + minPrice + ", maxPrice="
+                + maxPrice + ", page=" + page + "]";
+    }
+    
     
     
 }

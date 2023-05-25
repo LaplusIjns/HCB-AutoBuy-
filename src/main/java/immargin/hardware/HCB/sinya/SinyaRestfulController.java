@@ -47,106 +47,74 @@ public class SinyaRestfulController {
     //搜尋欄 模糊搜
     @PostMapping(path = {"/Sinyafindprod"})
     public ResponseEntity<?> SinyafindProdname(@RequestBody String id) {
-        List<MaintableDTO> result = sinyaMaintableService.SinyablurSearchMaintable(id, 0, 20);
-        if(result!=null && !result.isEmpty()) {
-            return ResponseEntity.ok(result);
+        List<SinyaFormDTO> result=null;
+
+        Page<Sinyamaintable> SinyamaintablePage = sinyaMaintableService.getSinyablurSearchMaintable(id);
+        result = sinyaMaintableService.parseSinyamaintablePage(SinyamaintablePage);
+        Map<String, Object> result2 = new HashMap<>();
+        result2.put("produts", result);
+        result2.put("totalnumber", SinyamaintablePage.getTotalElements());
+        result2.put("page", SinyamaintablePage.getNumber());
+        result2.put("totalpage", SinyamaintablePage.getTotalPages());
+        
+        
+        if(SinyamaintablePage.getContent()!=null && SinyamaintablePage.getContent().size()!=0) {
+            return ResponseEntity.ok(result2);
         }else {
             return ResponseEntity.notFound().build();
         }
     }
     
-    //搜尋後 分頁 模糊搜2
-    @PostMapping(path = {"/Sinyafindprod2"})
-    public ResponseEntity<?> SinyafindProdname2(@RequestBody Maintable bean) {
-        log.info("使用者查詢: {}",bean.getProdname());
-        List<MaintableDTO> result =null;
-        result = sinyaMaintableService.SinyablurSearchMaintable(bean.getProdname(),Integer.valueOf( bean.getPage() ), 20);
-        if(result!=null && !result.isEmpty()) {
+    @PostMapping(path = { "/SinyaProduct/{prodname}"} )
+    public ResponseEntity<?> SinyaProduct(@PathVariable(name="prodname") String id){
+        
+        Map<String, Object> result = new HashMap<>();
+        
+        Optional<MaintableDTO> prodname=null;
+        prodname = sinyaMaintableService.SinyagetProdname(id);
+        
+        if(prodname.isPresent()) {
+            result.put("productname", prodname);
+            
+            List<LastDTO> priceanddate = lastService.SinyagetProd(id);
+            result.put("priceanddate", priceanddate);
+            
+            List<TagnameDTO> taginfo = tagService.SinyaSearchbyProdname(id);
+            result.put("taginfo", taginfo);
+            
+            
             return ResponseEntity.ok(result);
-        }else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-    //產品 總頁數 總元素 變數 分頁
-    @PostMapping(path = {"/Sinyatotal/{pageparam}"})
-    public ResponseEntity<?> Sinyafindtotal(@RequestBody Maintable bean,@PathVariable(name="pageparam") Integer page) {
-        int[] result =null;
-        result = sinyaMaintableService.Sinyagettotal(bean.getProdname(), page, 20);
-        if(result!=null) {
-            return ResponseEntity.ok(result);
-        }else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-       //tag 總頁數 總元素 變數 分頁
-    @PostMapping(path = {"/Sinyatagtotal/{pageparam}"})
-    public ResponseEntity<?> Sinyafindtagtotal(@RequestBody Maintable bean,@PathVariable(name="pageparam") Integer page) {
-        int[] result =null;
-        result = tagService.Sinyagettagtotal(bean.getProdname(), page, 20);
-        if(result!=null) {
-            return ResponseEntity.ok(result);
-        }else {
+        }else{
+           
             return ResponseEntity.notFound().build();
         }
     }
     
-    //產品頁 輸出產品名字
-    @PostMapping(path = {"/Sinyafindprod3/{prodname}"})
-    public ResponseEntity<?> SinyafindProdname3(@PathVariable(name="prodname") String id) {
-        Optional<MaintableDTO> result=null;
-        result = sinyaMaintableService.SinyagetProdname(id);
-        if(result!=null && result.isPresent()) {
-            log.info("使用者點選商品: {}",result.get().getProdname());
-            return ResponseEntity.ok(result.get());
-        }else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-    //產品頁 輸出日期和價格
-    @PostMapping(path = {"/Sinyafindprod4/{prodname}"})
-    public ResponseEntity<?> SinyafindProdname4(@PathVariable(name="prodname") String id) {
-        List<LastDTO> result=null;
-        result = lastService.SinyagetProd(id);
-        if(result!=null && !result.isEmpty()) {
+    @PostMapping(path = { "/SinyaTag"} )
+    public ResponseEntity<?> SinyaTag(@RequestBody FormData formData){
+        
+        Map<String, Object> result = new HashMap<>();
+        String id = formData.getProdName();
+        Integer page = formData.getPage();
+        
+        Optional<TagnameDTO> prodtagname=null;
+        prodtagname = tagService.SinyagetTagname(id);
+        
+        if(prodtagname.isPresent()) {
+            result.put("prodtagname", prodtagname);
+            
+            Page<MaintableDTO> tagpage = tagService.SinyaTagPage(id, page, 20);
+            result.put("totalpage", tagpage.getTotalPages());
+            result.put("totalelement", tagpage.getTotalElements());
+            
+            List<MaintableDTO> tagproduct = tagService.SinyaSearchbyTagname(id, page,20);
+            result.put("tagproduct", tagproduct);
+            
+            log.info("搜尋標籤: {}",prodtagname.get().gettag_zhtw());
+            
             return ResponseEntity.ok(result);
-        }else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-    
-    //獲得產品的 tag
-    @PostMapping(path = { "/Sinyatag/{prodname}"} )
-    public ResponseEntity<?> SinyafindProdTag(@PathVariable(name="prodname") String id){
-        List<TagnameDTO> result=null;
-        result = tagService.SinyaSearchbyProdname(id);
-        if(result!=null && !result.isEmpty()) {
-            return ResponseEntity.ok(result);
-        }else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-    
-    // 用tag 搜尋相同產品
-    @PostMapping(path = {"/Sinyafindtag/{pageparam}"})
-    public ResponseEntity<?> Sinyafindtagname(@RequestBody Maintable bean,@PathVariable(name="pageparam") Integer page) {
-        List<MaintableDTO> result =null;
-        result = tagService.SinyaSearchbyTagname(bean.getProdname(), page,20);
-        if(result!=null && !result.isEmpty()) {
-            return ResponseEntity.ok(result);
-        }else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-    
-  //tag頁 輸出tag 名字
-    @PostMapping(path = {"/Sinyafindtag2/{prodname}"})
-    public ResponseEntity<?> SinyafindTagname(@PathVariable(name="prodname") String id) {
-        Optional<TagnameDTO> result=null;
-        result = tagService.SinyagetTagname(id);
-        if(result!=null && result.isPresent()) {
-            log.info("標籤搜尋: {}",result.get().gettag_zhtw());
-            return ResponseEntity.ok(result.get());
-        }else {
+        }else{
+           
             return ResponseEntity.notFound().build();
         }
     }
@@ -187,22 +155,22 @@ public class SinyaRestfulController {
         result2.put("page", SinyamaintablePage.getNumber());
         result2.put("totalpage", SinyamaintablePage.getTotalPages());
         
-        System.out.println(result);
+//        System.out.println(result);
         
         // 當前這切片 所在頁數
-        System.out.println(SinyamaintablePage.getNumber());
+//        System.out.println(SinyamaintablePage.getNumber());
         
         // 當前這切片全部
-        System.out.println(SinyamaintablePage.getNumberOfElements());
+//        System.out.println(SinyamaintablePage.getNumberOfElements());
         
         // 全部頁數
-        System.out.println(SinyamaintablePage.getTotalPages());
+//        System.out.println(SinyamaintablePage.getTotalPages());
         
         // 一個slice的大小
-        System.out.println(SinyamaintablePage.getSize());
+//        System.out.println(SinyamaintablePage.getSize());
         
         // 全部數量
-        System.out.println(SinyamaintablePage.getTotalElements());
+//        System.out.println(SinyamaintablePage.getTotalElements());
         
         
         if(SinyamaintablePage.getContent()!=null && SinyamaintablePage.getContent().size()!=0) {

@@ -33,11 +33,52 @@ function AjaxgetTotal(datajson, pageparam123) {
 		async: !1,
 	})
 }
+function AjaxgetTotal(datajson, pageparam123) {
+	return $.ajax({
+		type: "post",
+		url: "/Sinyatagtotal/" + pageparam123,
+		contentType: 'application/json;charset=utf-8',
+		data: datajson,
+		async: !1,
+	})
+}
+
+function AjaxgetTag(datajson) {
+	return $.ajax({
+		type: "post",
+		url: "/SinyaTag",
+		contentType: 'application/json;charset=utf-8',
+		data: JSON.stringify( datajson ),
+		async: !1,
+	})
+}
+function refreshgrid(data){
+		 getprod = data["tagproduct"]
+		 gettotal = data["totalpage"]
+		 element = data["totalelement"]
+		
+		console.log("總頁數!!"+gettotal)
+		// ["responseJSON"]
+		
+		if ( getprod != null ) {
+			showresult(getprod)
+		} else {
+			console.log("im here")
+			$("#result").empty();
+			$("#result").text("查無結果");
+		}
+		tagname = data["prodtagname"]["tag_zhtw"]
+		// $("#totalpage").text("總共 "+gettotal[1]+"件商品 共"+gettotal[0]+"頁"+"當前為第"+(pageparam123+1)+"頁")
+		$("#totalpage").text("當前搜尋"+tagname+" ("+document.querySelector("#searchbar").value+") 總共 "+element+"件商品 共"+gettotal+"頁"+"當前為第"+(pageparam123+1)+"頁")
+	}
+
 function searchProd(tagid) {
+	
+	console.log("im here111")
 	pageparam123 = 0;
-	var gettotal
-	var keyword
-	var tagname
+//	var gettotal
+//	var keyword
+//	var tagname
 	document.getElementById("prodsearch").onclick = (event) => {
 		pageparam123 = 0;
 		var x = document.querySelector("#searchbar").value
@@ -47,78 +88,51 @@ function searchProd(tagid) {
 			alert("輸入點什麼");
 			return;
 		}
+		console.log("im here")
+		x = tagid
 		keyword = x
-		y = { "prodname": x };
+		y = { "prodName": x ,"page":pageparam123};
 		datajson = JSON.stringify(y)
 		// console.log(datajson)
-		var getprod = AjaxgetProd(datajson, pageparam123)
-		gettotal = AjaxgetTotal(datajson, pageparam123)["responseJSON"]
-		console.log("總頁數!!"+gettotal)
-		// ["responseJSON"]
-		console.log(getprod["status"])
-		if (getprod["status"] == 200) {
-			getprod = getprod["responseJSON"]
-			showresult(getprod)
-		} else {
-			console.log("im here")
-			$("#result").empty();
-			$("#result").text("查無結果");
-		}
-		tagname = Ajexgetitemname(tagid)["responseJSON"]["tag_zhtw"]
-		// $("#totalpage").text("總共 "+gettotal[1]+"件商品 共"+gettotal[0]+"頁"+"當前為第"+(pageparam123+1)+"頁")
-		$("#totalpage").text("當前搜尋"+tagname+" ("+keyword+") 總共 "+gettotal[1]+"件商品 共"+gettotal[0]+"頁"+"當前為第"+(pageparam123+1)+"頁")
+		
+		var data = AjaxgetTag(y)["responseJSON"];
+		console.log(data)
+		
+		refreshgrid(data)
+		
 		event.preventDefault()
 	}
+	
 	document.getElementById("nextpage").onclick = (event) => {
 		// var x = document.querySelector("#searchbar").value
-		var x = keyword
+		var x = document.querySelector("#searchbar").value
 		if(x==""|| x==undefined)return
-		if (pageparam123 >= 0 && (pageparam123+1)<gettotal[0]) {
+		if (pageparam123 >= 0 && (pageparam123+1)<gettotal) {
 			pageparam123 += 1;
 		}
 		console.log(pageparam123);
-		y = { "prodname": x };
-		datajson = JSON.stringify(y)
-		// console.log(datajson)
-		var getprod = AjaxgetProd(datajson, pageparam123)
-		// ["responseJSON"]
-		console.log(getprod["status"])
-		if (getprod["status"] == 200) {
-			getprod = getprod["responseJSON"]
-			showresult(getprod)
-		} else {
-			console.log("im here")
-			$("#result").empty();
-			$("#result").text("查無結果");
-
-		}
-		$("#totalpage").text("當前搜尋"+tagname+" ("+keyword+") 總共 "+gettotal[1]+"件商品 共"+gettotal[0]+"頁"+"當前為第"+(pageparam123+1)+"頁")
+		y = { "prodName": x ,"page":pageparam123};
+		var data = AjaxgetTag(y)["responseJSON"];
+		console.log(data)
+		
+		refreshgrid(data)
+		
 		event.preventDefault()
 	}
 	document.getElementById("prepage").onclick = (event) => {
 		// var x = document.querySelector("#searchbar").value
 		// var x = tagid
-		var x = keyword
+		var x = document.querySelector("#searchbar").value
 		if(x==""|| x==undefined)return
 		if (pageparam123 > 0) {
 			pageparam123 -= 1;
 		}
-		y = { "prodname": x };
-		datajson = JSON.stringify(y)
-		// console.log(datajson)
-		var getprod = AjaxgetProd(datajson, pageparam123)
-		// ["responseJSON"]
-		console.log(getprod["status"])
-		if (getprod["status"] == 200) {
-			getprod = getprod["responseJSON"]
-			showresult(getprod)
-		} else {
-			console.log("im here")
-			$("#result").empty();
-			$("#result").text("查無結果");
-
-		}
-		$("#totalpage").text("當前搜尋"+tagname+" ("+keyword+") 總共 "+gettotal[1]+"件商品 共"+gettotal[0]+"頁"+"當前為第"+(pageparam123+1)+"頁")
+		y = { "prodName": x ,"page":pageparam123};
+		var data = AjaxgetTag(y)["responseJSON"];
+		console.log(data)
+		
+		refreshgrid(data)
+		
 		event.preventDefault()
 	}
 }
@@ -130,20 +144,10 @@ function showresult(getprod) {
 		// console.log($template)
 		test = $($template)
 		test.appendTo("#result")
-	}
-	// $(".SelectProduct").click(function () {
-	// 	localStorage.setItem("prod_id", $(this).attr("id"));
-	// 	localStorage.setItem("prod_name", $(this).children().text());
-	// 	// console.log( $(this).children().text())
-	// 	location.href = "./Product"+"?prodid="+$(this).attr("id");
-	// })
-	
+	}	
 }
 function handle(e){
-	pageparam123 = 0;
-	var gettotal
-	var keyword
-	var tagname
+	console.log(e.keyCode)
 	if(e.keyCode === 13){
 		pageparam123 = 0;
 		var x = document.querySelector("#searchbar").value
@@ -153,80 +157,24 @@ function handle(e){
 			alert("輸入點什麼");
 			return;
 		}
-		keyword = x
-		y = { "prodname": x };
+		console.log("im here")
+//		x = tagid
+//		keyword = x
+		y = { "prodName": x ,"page":pageparam123};
 		datajson = JSON.stringify(y)
 		// console.log(datajson)
-		var getprod = AjaxgetProd(datajson, pageparam123)
-		gettotal = AjaxgetTotal(datajson, pageparam123)["responseJSON"]
-		console.log("總頁數!!"+gettotal)
-		// ["responseJSON"]
-		console.log(getprod["status"])
-		if (getprod["status"] == 200) {
-			getprod = getprod["responseJSON"]
-			showresult(getprod)
-		} else {
-			console.log("im here")
-			$("#result").empty();
-			$("#result").text("查無結果");
-
-		}
-		tagname = Ajexgetitemname(tagid)["responseJSON"]["tag_zhtw"]
-		// $("#totalpage").text("總共 "+gettotal[1]+"件商品 共"+gettotal[0]+"頁"+"當前為第"+(pageparam123+1)+"頁")
-		$("#totalpage").text("當前搜尋"+tagname+" ("+keyword+") 總共 "+gettotal[1]+"件商品 共"+gettotal[0]+"頁"+"當前為第"+(pageparam123+1)+"頁")
+		
+		var data = AjaxgetTag(y)["responseJSON"];
+		console.log(data)
+		
+		refreshgrid(data)
+		
+		
+		
 		event.preventDefault()
-		document.getElementById("nextpage").onclick = (event) => {
-			// var x = document.querySelector("#searchbar").value
-			var x = keyword
-			if(x==""|| x==undefined)return
-			if (pageparam123 >= 0 && (pageparam123+1)<gettotal[0]) {
-				pageparam123 += 1;
-			}
-			console.log(pageparam123);
-			y = { "prodname": x };
-			datajson = JSON.stringify(y)
-			// console.log(datajson)
-			var getprod = AjaxgetProd(datajson, pageparam123)
-			// ["responseJSON"]
-			console.log(getprod["status"])
-			if (getprod["status"] == 200) {
-				getprod = getprod["responseJSON"]
-				showresult(getprod)
-			} else {
-				console.log("im here")
-				$("#result").empty();
-				$("#result").text("查無結果");
-	
-			}
-			$("#totalpage").text("當前搜尋"+tagname+" ("+keyword+") 總共 "+gettotal[1]+"件商品 共"+gettotal[0]+"頁"+"當前為第"+(pageparam123+1)+"頁")
-			event.preventDefault()
-		}
-		document.getElementById("prepage").onclick = (event) => {
-			// var x = document.querySelector("#searchbar").value
-			// var x = tagid
-			var x = keyword
-			if(x==""|| x==undefined)return
-			if (pageparam123 > 0) {
-				pageparam123 -= 1;
-			}
-			y = { "prodname": x };
-			datajson = JSON.stringify(y)
-			// console.log(datajson)
-			var getprod = AjaxgetProd(datajson, pageparam123)
-			// ["responseJSON"]
-			console.log(getprod["status"])
-			if (getprod["status"] == 200) {
-				getprod = getprod["responseJSON"]
-				showresult(getprod)
-			} else {
-				console.log("im here")
-				$("#result").empty();
-				$("#result").text("查無結果");
-	
-			}
-			$("#totalpage").text("當前搜尋"+tagname+" ("+keyword+") 總共 "+gettotal[1]+"件商品 共"+gettotal[0]+"頁"+"當前為第"+(pageparam123+1)+"頁")
-			event.preventDefault()
-		}
+
+	}else{
+		console.log("123123")
 	}
 }
 

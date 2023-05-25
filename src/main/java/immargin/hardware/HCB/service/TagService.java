@@ -76,6 +76,19 @@ public class TagService {
         
         return abc;
     }
+  //搜尋tag總元素
+    public Page<MaintableDTO> SinyaTagPage(String name,Integer page,Integer size){
+        Page<MaintableDTO> pageResult = null;
+//        int[] abc= new int[2];
+        Pageable pageable=PageRequest.of(page, size);
+        pageResult = tagRepository.SinyafindByTagName(name, pageable);
+//        abc[0] = pageResult.getTotalPages();
+//        abc[1] = (int) pageResult.getTotalElements();
+        
+        return pageResult;
+    }
+    
+    
     public Optional<TagnameDTO> SinyagetTagname(String name){
         Optional<TagnameDTO> result = null;
         result = tagRepository.SinyafindTagnameByfk_tag(name);

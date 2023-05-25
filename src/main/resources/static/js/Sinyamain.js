@@ -9,8 +9,8 @@ function AutoComplete() {
 				contentType: 'application/json;charset=utf-8',
 				success: function (data) {
 					resval = []
-					for (var i = 0; i < data.length; i++) {
-						resval.push(data[i].prodname)
+					for (var i = 0; i < data.produts.length; i++) {
+						resval.push(data.produts[i].prodname)
 					}
 					response(resval);
 					$(".ui-menu-item").addClass(" my-1  ")
@@ -68,7 +68,7 @@ function ajaxprod(){
  					for (var i = 0; i < data.produts.length; i++) {
 						 var tags = "";
 						  	for(var j=0; j<data.produts[i].tagnameDTO.length; j++){
-								  tags+= `<a href="#${data.produts[i].tagnameDTO[j].tagId}" class="btn carbtncolor mx-1 px-3  border border-1 border-dark rounded-0">${data.produts[i].tagnameDTO[j].tagZhtw}</a>`;
+								  tags+= `<a href="./Sinyatag?tagid=${data.produts[i].tagnameDTO[j].tagId}" class="btn carbtncolor mx-1 px-3  border border-1 border-dark rounded-0">${data.produts[i].tagnameDTO[j].tagZhtw}</a>`;
 							  }					
  						var tmp = `
  						<li class="mb-3">

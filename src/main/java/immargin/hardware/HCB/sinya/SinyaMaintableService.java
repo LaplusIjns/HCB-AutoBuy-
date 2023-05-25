@@ -1,40 +1,25 @@
 package immargin.hardware.HCB.sinya;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import javax.swing.text.html.HTML.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
-import immargin.hardware.HCB.Config.Constant;
 import immargin.hardware.HCB.DTO.FormData;
 import immargin.hardware.HCB.DTO.MaintableDTO;
 import immargin.hardware.HCB.DTO.SinyaFormDTO;
 import immargin.hardware.HCB.DTO.TagDTO;
-import immargin.hardware.HCB.DTO.TagnameDTO;
-import immargin.hardware.HCB.autobuy.MaintableRepository;
-import immargin.hardware.HCB.model.Maintable;
-import immargin.hardware.HCB.model.SinyaTagcompare;
 import immargin.hardware.HCB.model.SinyaTagprod;
 import immargin.hardware.HCB.model.Sinyamaintable;
-import immargin.hardware.HCB.sinya.SinyaMaintableRepository;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.JoinType;
-import jakarta.persistence.criteria.Path;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import immargin.hardware.HCB.query.SinyaFindByNameSpecification;
+import immargin.hardware.HCB.query.SinyaFormSpecification;
+
 
 @Service
 public class SinyaMaintableService {
@@ -42,12 +27,9 @@ public class SinyaMaintableService {
 
 	@Autowired
     private SinyaMaintableRepository sinyaMaintableRepository;
-
-
 	
-//	Sinya
-	//搜尋欄
-    public List<MaintableDTO> SinyablurSearchMaintable(String prodname,int page,int size){
+
+	public List<MaintableDTO> SinyablurSearchMaintable(String prodname,int page,int size){
         List<MaintableDTO> pageResult = null;
         Pageable pageable=PageRequest.of(page, size);
         String[] newStr = prodname.split("\\s+");
@@ -65,6 +47,31 @@ public class SinyaMaintableService {
             pageResult =sinyaMaintableRepository.SinyafindByName6(newStr[0],newStr[1],newStr[2],newStr[3],newStr[4],newStr[5],pageable).getContent();
         }
         return pageResult;
+    }
+
+	
+//	Sinya
+	//搜尋欄
+    public Page<Sinyamaintable> getSinyablurSearchMaintable(String prodname){
+            Pageable pageable=PageRequest.of(0,20);
+            SinyaFindByNameSpecification specification = new SinyaFindByNameSpecification(prodname);
+            Page<Sinyamaintable> findall = sinyaMaintableRepository.findAll(specification, pageable);
+            return findall;
+    }
+    
+    
+    public List<SinyaFormDTO> parseSinyablurSearchMaintable(Page<Sinyamaintable> sinyamaintablePage){
+        List<Sinyamaintable> Result = null;
+        List<SinyaFormDTO> sinyaFormDTOList = new ArrayList<>();
+        Result = sinyamaintablePage.getContent();
+//        System.out.println(Result);
+        
+        for (Sinyamaintable sinyamaintable : Result) {
+            SinyaFormDTO sinyaFormDTO = new SinyaFormDTO(sinyamaintable.getProdname(), sinyamaintable.getProdId(), null, null, null);
+            sinyaFormDTOList.add(sinyaFormDTO);
+        }
+        return sinyaFormDTOList;
+        
     }
     
     //搜尋總頁數元素
@@ -108,7 +115,7 @@ public class SinyaMaintableService {
         
         //formData.getpage
         Pageable pageable=PageRequest.of(formData.getPage()-1, 20);
-        SinyaSpecification sinyaSpecification = new SinyaSpecification(formData);
+        SinyaFormSpecification sinyaSpecification = new SinyaFormSpecification(formData);
 //        System.out.println( sinyaSpecification.toString() );
         Page<Sinyamaintable> findall = sinyaMaintableRepository.findAll(sinyaSpecification,pageable);
         return findall;
@@ -135,68 +142,6 @@ public class SinyaMaintableService {
     
     
     
-    class SinyaSpecification implements Specification<Sinyamaintable>{
-        private FormData formData;
-        public SinyaSpecification(FormData formData) {
-            super();
-            this.formData = formData;
-        }
-        @Override
-        @Nullable
-        public Predicate toPredicate(Root<Sinyamaintable> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-            /*
-             *  Boolean expiredProd,filterProd 尚未實裝
-             */
-            Path<Date> initalDate = root.get("initalDate");
-            Path<String> prodId = root.get("prodId");
-            Path<Date> lastUpdateDate = root.get("lastUpdateDate");
-//            Path<Integer> prodavailable = root.get("prodavailable");
-            Path<String> prodname = root.get("prodname");
-            Path<Integer> lastprice = root.get("lastprice");
-            Predicate result = null;
-            List<Predicate> predicateList = new ArrayList<>();
-            
-            if(formData.getProdName()!=null) {
-                String[] newStr = formData.getProdName().split("\\s+");
-                for(int i = 0; i<newStr.length;i++) {
-                    Predicate predicate = criteriaBuilder.like(prodname,Constant.PERCENT+newStr[i]+Constant.PERCENT);
-                    predicateList.add(predicate);    
-                }
-            }
-            if(formData.getMinPrice()!=null) {
-                Predicate predicate1 = criteriaBuilder.greaterThanOrEqualTo(lastprice,  Integer.valueOf( formData.getMinPrice() ) );
-                predicateList.add(predicate1);
-            }
-            if(formData.getMaxPrice()!=null) {
-                Predicate predicate2 = criteriaBuilder.lessThanOrEqualTo(lastprice, Integer.valueOf( formData.getMaxPrice() ) );
-                predicateList.add(predicate2);
-            }
-            if(formData.getEndUpdate()!=null) {
-                Predicate predicate3 = criteriaBuilder.lessThanOrEqualTo(lastUpdateDate, formData.getEndUpdate() );
-                predicateList.add(predicate3);
-            }
-            if(formData.getStartUpdate()!=null) {
-                Predicate predicate4 = criteriaBuilder.greaterThanOrEqualTo(lastUpdateDate, formData.getStartUpdate() );
-                predicateList.add(predicate4);
-            }
-            if(formData.getStartDate()!=null) {
-                Predicate predicate4 = criteriaBuilder.greaterThanOrEqualTo(initalDate, formData.getStartDate() );
-                predicateList.add(predicate4);
-            }
-            if(formData.getEndDate()!=null) {
-                Predicate predicate4 = criteriaBuilder.lessThanOrEqualTo(initalDate, formData.getEndDate() );
-                predicateList.add(predicate4);
-            }
-
-            Predicate[] predicateArray = new Predicate[predicateList.size()];
-            for(int i=0;i<predicateList.size();i++) {
-                predicateArray[i] = predicateList.get(i);
-            }
-            
-            result = criteriaBuilder.and(predicateArray);
-            return result;
-        }
-        
-    }
+    
 
 }
