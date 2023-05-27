@@ -139,7 +139,18 @@ overflow-y: scroll;
 /* li.ui-menu-item{ */
 /* 	margin: 64px !important; */
 /* } */
+.orderli {
+  min-width:500px !important;
+}
+.orderlb {
+  min-width:350px !important;
+}
+.day{
 
+	padding: 0.5em !important;
+}
 .offcanvas-start{
 	width: 600px  !important;
 }
+
+.dropdown-toggle:hover .dropdown-menu:hover {display: block !important; }

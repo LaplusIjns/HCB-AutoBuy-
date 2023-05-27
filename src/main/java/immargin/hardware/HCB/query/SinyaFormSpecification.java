@@ -40,7 +40,6 @@ public class SinyaFormSpecification implements Specification<Sinyamaintable> {
     Path<Integer> lastprice = root.get("lastprice");
     Predicate result = null;
     List<Predicate> predicateList = new ArrayList<>();
-    Order order = null;
     
     if(formData.getProdName()!=null) {
         String[] newStr = formData.getProdName().split("\\s+");
@@ -74,20 +73,46 @@ public class SinyaFormSpecification implements Specification<Sinyamaintable> {
         predicateList.add(predicate4);
     }
     
-//    if( StringUtils.hasLength(formData.getSortStrategy())) {
-//        if(formData.getSortStrategy().equals("1")) {
-//        }
-//    }
-
     Predicate[] predicateArray = new Predicate[predicateList.size()];
     for(int i=0;i<predicateList.size();i++) {
         predicateArray[i] = predicateList.get(i);
     }
     
     result = criteriaBuilder.and(predicateArray);
-    query.orderBy(order);
     
-    return result;
+    List<Order> orderlist = new ArrayList<>();
+    
+    if( formData.getSortStrategy().size()!=0) {
+        for (String string : formData.getSortStrategy()) {
+            if(string.equals("a")) {
+                Order order = criteriaBuilder.desc(lastprice.as(Integer.class));
+                orderlist.add(order);
+            }
+            if(string.equals("b")) {
+                Order order = criteriaBuilder.asc(lastprice.as(Integer.class));
+                orderlist.add(order);
+            }
+            if(string.equals("c")) {
+                Order order = criteriaBuilder.desc(lastUpdateDate.as(Date.class));
+                orderlist.add(order);
+            }
+            if(string.equals("d")) {
+                Order order = criteriaBuilder.asc(lastUpdateDate.as(Date.class));
+                orderlist.add(order);
+            }
+            if(string.equals("e")) {
+                Order order = criteriaBuilder.desc(initalDate.as(Date.class));
+                orderlist.add(order);
+            }
+            if(string.equals("f")) {
+                Order order = criteriaBuilder.asc(initalDate.as(Date.class));
+                orderlist.add(order);
+            }
+        }
+    }
+    query.where(result);
+    query.orderBy(orderlist);
+    return query.getRestriction();
 }
 
 }

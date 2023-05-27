@@ -329,6 +329,7 @@ function searchProd() {
         	/*
         	*
         	*/
+        	FormData["sortStrategy"] = line2
         	console.log(FormData)
         	ajaxprod();
         	$('.previouspage').removeAttr('hidden');
