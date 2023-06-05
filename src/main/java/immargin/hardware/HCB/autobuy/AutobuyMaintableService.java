@@ -7,6 +7,7 @@ import java.util.Optional;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -79,8 +80,8 @@ public class AutobuyMaintableService {
 	    result = maintableRepository.findMaintableDTOByProd_id(id);
 	    return result;
 	}
-	
-    public List<MaintableDTO> DailyNew(Integer index){
+	@Cacheable(value="DailyNew", key="#cacheDateString", unless=" (#cacheDateString.equals(#nowString)) ")
+    public List<MaintableDTO> DailyNew(Integer index,String cacheDateString,String nowString){
         List<MaintableDTO> Result = null;
         Result = maintableRepository.DailyNew(index);
         return Result;

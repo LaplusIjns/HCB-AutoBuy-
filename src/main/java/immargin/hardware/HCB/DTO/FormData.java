@@ -10,11 +10,12 @@ public class FormData {
     private Date startDate;
     private Date endDate;
     private String prodName;
-    private Boolean expiredProd;
+    private Boolean expiredProd; // true 排除7天未更新的產品
     private Boolean filterProd;
     private Integer minPrice;
     private Integer maxPrice;
     private Integer page;
+    private Boolean insideMode;
     private List<String> sortStrategy;
     
     public List<String> getSortStrategy() {
@@ -87,6 +88,14 @@ public class FormData {
     public void setPage(Integer page) {
         this.page = page;
     }
+    
+    public Boolean getInsideMode() {
+        return insideMode;
+    }
+    public void setInsideMode(Boolean insideMode) {
+        this.insideMode = insideMode;
+    }
+    
     @Override
     public String toString() {
         return "FormData [startUpdate=" + startUpdate + ", endUpdate=" + endUpdate + ", startDate=" + startDate

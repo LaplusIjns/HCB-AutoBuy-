@@ -1,5 +1,8 @@
 package immargin.hardware.HCB.autobuy;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +41,7 @@ public class AutobuyRestfulController {
 	
 	
     private static final Logger log = LoggerFactory.getLogger(AutobuyRestfulController.class);
-
+    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
     //	AutoBuy
 	//搜尋欄 模糊搜
 	@PostMapping(path = {"/findprod"})
@@ -151,7 +154,14 @@ public class AutobuyRestfulController {
     @PostMapping(path = {"/dailyprice/{index}"})
     public ResponseEntity<?> findDailyprice(@PathVariable Integer index) {
         List<DailyDTO> result=null;
-        result = lastService.getDaily(index);
+        
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -index);
+        Date cacheDate = calendar.getTime();
+        String cacheDateString = simpleDateFormat.format(cacheDate);
+        String nowString = simpleDateFormat.format(new Date());
+        
+        result = lastService.getDaily(index,cacheDateString,nowString);
         if(result!=null && !result.isEmpty()) {
             return ResponseEntity.ok(result);
         }else {
@@ -163,7 +173,14 @@ public class AutobuyRestfulController {
     @PostMapping(path = {"/dailynew/{index}"})
     public ResponseEntity<?> findDailynew(@PathVariable Integer index) {
         List<MaintableDTO> result=null;
-        result = maintableService.DailyNew(index);
+        
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -index);
+        Date cacheDate = calendar.getTime();
+        String cacheDateString = simpleDateFormat.format(cacheDate);
+        String nowString = simpleDateFormat.format(new Date());
+        
+        result = maintableService.DailyNew(index,cacheDateString,nowString);
         if(result!=null && !result.isEmpty()) {
             return ResponseEntity.ok(result);
         }else {

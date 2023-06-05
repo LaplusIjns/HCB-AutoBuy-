@@ -38,8 +38,26 @@ public class SinyaFormSpecification implements Specification<Sinyamaintable> {
 //    Path<Integer> prodavailable = root.get("prodavailable");
     Path<String> prodname = root.get("prodname");
     Path<Integer> lastprice = root.get("lastprice");
+    Path<Integer> prodavailable = root.get("prodavailable");
     Predicate result = null;
     List<Predicate> predicateList = new ArrayList<>();
+    
+    // 移除7天未更新 = true 等同 available = 1
+    //             false 等同 不移除全展示 不用作條件判斷
+    
+    if(formData.getExpiredProd()!=null) {
+        if(formData.getExpiredProd().booleanValue()==true) {
+            Predicate predicate = criteriaBuilder.equal(prodavailable, 1);
+            predicateList.add(predicate);  
+        }       
+    }
+    // 用於當商品標記為無貨改為有貨時更新使用
+    if(formData.getInsideMode()!=null) {
+        if(formData.getInsideMode().booleanValue()==true) {
+            Predicate predicate = criteriaBuilder.equal(prodavailable, 0);
+            predicateList.add(predicate);  
+        }       
+    }
     
     if(formData.getProdName()!=null) {
         String[] newStr = formData.getProdName().split("\\s+");
@@ -48,6 +66,7 @@ public class SinyaFormSpecification implements Specification<Sinyamaintable> {
             predicateList.add(predicate);    
         }
     }
+    
     if(formData.getMinPrice()!=null) {
         Predicate predicate1 = criteriaBuilder.greaterThanOrEqualTo(lastprice,  Integer.valueOf( formData.getMinPrice() ) );
         predicateList.add(predicate1);
@@ -82,7 +101,7 @@ public class SinyaFormSpecification implements Specification<Sinyamaintable> {
     
     List<Order> orderlist = new ArrayList<>();
     
-    if( formData.getSortStrategy().size()!=0) {
+    if( formData.getSortStrategy() != null ) {
         for (String string : formData.getSortStrategy()) {
             if(string.equals("a")) {
                 Order order = criteriaBuilder.desc(lastprice.as(Integer.class));

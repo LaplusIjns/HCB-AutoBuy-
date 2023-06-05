@@ -1,8 +1,12 @@
 package immargin.hardware.HCB.service;
 
+import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import immargin.hardware.HCB.DTO.DailyDTO;
@@ -21,7 +25,8 @@ public class LastService {
 		result = lastRepository.getProd(lastone, prodname);
 		return result;
 	}
-	   public List<DailyDTO> getDaily(Integer index){
+	   @Cacheable(value="getDaily", key="#cacheDateString", unless=" (#cacheDateString.equals(#nowString)) ")
+	   public List<DailyDTO> getDaily(Integer index,String cacheDateString,String nowString){
 	        int index2 = index+1;
 	        List<DailyDTO> result = null;
 	        result = lastRepository.getDaily(index, index2);
@@ -34,7 +39,9 @@ public class LastService {
         result = lastRepository.getSinyaProd(lastone, prodname);
         return result;
     }
-	public List<DailyDTO> getSinyaDaily(Integer index){
+	@Cacheable(value="getSinyaDaily", key="#cacheDateString", unless=" (#cacheDateString.equals(#nowString)) ")
+	public List<DailyDTO> getSinyaDaily(Integer index,String cacheDateString,String nowString){
+
         int index2 = index+1;
         List<DailyDTO> result = null;
         result = lastRepository.getSinyaDaily(index, index2);

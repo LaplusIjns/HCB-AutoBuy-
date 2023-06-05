@@ -1,5 +1,8 @@
 package immargin.hardware.HCB.sinya;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +45,7 @@ public class SinyaRestfulController {
 	TagService tagService;
 	
     private static final Logger log = LoggerFactory.getLogger(SinyaRestfulController.class);
-    
+    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
     //	Sinya
     //搜尋欄 模糊搜
     @PostMapping(path = {"/Sinyafindprod"})
@@ -123,8 +126,13 @@ public class SinyaRestfulController {
     @PostMapping(path = {"/Sinyadailyprice/{index}"})
     public ResponseEntity<?> findSinyaDailyprice(@PathVariable Integer index) {
         List<DailyDTO> result=null;
-        result = lastService.getSinyaDaily(index);
-        System.out.println(result.get(0).getfk_prod_id());
+        
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -index);
+        Date cacheDate = calendar.getTime();
+        String cacheDateString = simpleDateFormat.format(cacheDate);
+        String nowString = simpleDateFormat.format(new Date());
+        result = lastService.getSinyaDaily(index,cacheDateString,nowString);
         if(result!=null && !result.isEmpty()) {
             return ResponseEntity.ok(result);
         }else {
@@ -135,7 +143,14 @@ public class SinyaRestfulController {
     @PostMapping(path = {"/Sinyadailynew/{index}"})
     public ResponseEntity<?> findSinyaDailynew(@PathVariable Integer index) {
         List<MaintableDTO> result=null;
-        result = sinyaMaintableService.SinyaDailyNew(index);
+        
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -index);
+        Date cacheDate = calendar.getTime();
+        String cacheDateString = simpleDateFormat.format(cacheDate);
+        String nowString = simpleDateFormat.format(new Date());
+        
+        result = sinyaMaintableService.SinyaDailyNew(index,cacheDateString,nowString);
         if(result!=null && !result.isEmpty()) {
             return ResponseEntity.ok(result);
         }else {
@@ -145,6 +160,9 @@ public class SinyaRestfulController {
     //表單處理
     @PostMapping(path = {"/SinyaForm"})
     public ResponseEntity<?> SinyaForm(@RequestBody FormData formData) {
+        
+        log.info("搜尋商品: {}",formData.getProdName());
+        
         List<SinyaFormDTO> result=null;
 
         Page<Sinyamaintable> SinyamaintablePage = sinyaMaintableService.getSinyamaintablePage(formData);

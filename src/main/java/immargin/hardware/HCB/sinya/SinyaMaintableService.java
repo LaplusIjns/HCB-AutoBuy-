@@ -6,6 +6,7 @@ import java.util.Optional;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -104,13 +105,14 @@ public class SinyaMaintableService {
         result = sinyaMaintableRepository.SinyafindMaintableDTOByProd_id(id);
         return result;
     }
-    
-    public List<MaintableDTO> SinyaDailyNew(Integer index){
+    @Cacheable(value="SinyaDailyNew", key="#cacheDateString", unless=" (#cacheDateString.equals(#nowString)) ")
+    public List<MaintableDTO> SinyaDailyNew(Integer index,String cacheDateString,String nowString){
         List<MaintableDTO> Result = null;
         Result = sinyaMaintableRepository.SinyaDailyNew(index);
         return Result;
     }
     
+    @Cacheable("SinyamaintablePage")
     public Page<Sinyamaintable> getSinyamaintablePage(FormData formData){
         
         //formData.getpage
