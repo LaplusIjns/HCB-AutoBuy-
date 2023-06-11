@@ -177,7 +177,7 @@ function handle(e){
 		event.preventDefault()
 		document.getElementById("nextpage").onclick = (event) => {
 			// var x = document.querySelector("#searchbar").value
-			var x = keyword
+			let x = keyword
 			if(x==""|| x==undefined)return
 			if (pageparam123 >= 0 && (pageparam123+1)<gettotal[0]) {
 				pageparam123 += 1;
@@ -186,7 +186,7 @@ function handle(e){
 			y = { "prodname": x };
 			datajson = JSON.stringify(y)
 			// console.log(datajson)
-			var getprod = AjaxgetProd(datajson, pageparam123)
+			let getprod = AjaxgetProd(datajson, pageparam123)
 			// ["responseJSON"]
 			console.log(getprod["status"])
 			if (getprod["status"] == 200) {
