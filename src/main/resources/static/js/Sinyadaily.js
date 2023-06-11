@@ -94,7 +94,7 @@ function init() {
 function initdata(flag) {
 	if(flag){
 	console.log("hello! "+index);
-	parsegetDaily(index)
+	parsegetDaily()
 	setTimeout(function() {
 //		alert();
 //		加載資料		

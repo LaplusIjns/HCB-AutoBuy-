@@ -80,6 +80,7 @@ function drawchart(datasheet){
 		}
 	}
 	Chart.defaults.global.defaultFontColor = "#fff";
+	try{
 	new Chart("myChart", {
 		type: "line",
 		data: {
@@ -118,7 +119,9 @@ function drawchart(datasheet){
 			}]}
 		},
 
-	  })
+	  })}catch(e){
+		  console.log(e)
+	  }
 	  originalhigh = $("#historyhigh").text()
 	  console.log(originalhigh)
 	  originallow = $("#historylow").text()
