@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class FaviconController {
 
 
-    @GetMapping("/favicon.ico")
+    @GetMapping("/images/favicon.ico")
     public String  icon() {
 //        return "redirect:../favicon.svg";
         return "redirect:/images/favicon.svg";
