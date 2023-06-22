@@ -68,6 +68,7 @@ public class SinyaRestfulController {
         }
     }
     
+    //模糊搜後實際搜尋結果
     @PostMapping(path = { "/SinyaProduct/{prodname}"} )
     public ResponseEntity<?> SinyaProduct(@PathVariable(name="prodname") String id){
         
@@ -84,8 +85,7 @@ public class SinyaRestfulController {
             
             List<TagnameDTO> taginfo = tagService.SinyaSearchbyProdname(id);
             result.put("taginfo", taginfo);
-            
-            
+
             return ResponseEntity.ok(result);
         }else{
            
@@ -157,7 +157,15 @@ public class SinyaRestfulController {
             return ResponseEntity.notFound().build();
         }
     }
-    //表單處理
+    
+    /**
+     * 表單處理
+     * 當前這切片 所在頁數 SinyamaintablePage.getNumber()
+     * 當前這切片全部數量 SinyamaintablePage.getNumberOfElements()
+     * 全部頁數 SinyamaintablePage.getTotalPages()
+     * 一個slice的大小 SinyamaintablePage.getSize()
+     * 
+     */
     @PostMapping(path = {"/SinyaForm"})
     public ResponseEntity<?> SinyaForm(@RequestBody FormData formData) {
         
@@ -172,24 +180,6 @@ public class SinyaRestfulController {
         result2.put("totalnumber", SinyamaintablePage.getTotalElements());
         result2.put("page", SinyamaintablePage.getNumber());
         result2.put("totalpage", SinyamaintablePage.getTotalPages());
-        
-//        System.out.println(result);
-        
-        // 當前這切片 所在頁數
-//        System.out.println(SinyamaintablePage.getNumber());
-        
-        // 當前這切片全部
-//        System.out.println(SinyamaintablePage.getNumberOfElements());
-        
-        // 全部頁數
-//        System.out.println(SinyamaintablePage.getTotalPages());
-        
-        // 一個slice的大小
-//        System.out.println(SinyamaintablePage.getSize());
-        
-        // 全部數量
-//        System.out.println(SinyamaintablePage.getTotalElements());
-        
         
         if(!SinyamaintablePage.isEmpty()) {
             return ResponseEntity.ok(result2);

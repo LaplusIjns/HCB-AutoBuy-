@@ -1,48 +1,9 @@
 
-function AjaxgetProd(datajson, pageparam123) {
-	return $.ajax({
-		type: "post",
-		url: "/Sinyafindtag/" + pageparam123,
-		contentType: 'application/json;charset=utf-8',
-		data: datajson,
-		async: !1,
-	})
-}
-
-function Ajexgetitemname(tag_id){
-    return $.ajax({
-		type: "post",
-		url: "/Sinyafindtag2/"+tag_id,
-		contentType:'charset=utf-8',
-		// data:datajson,
-		async: !1,
-	})
-}
-
 function getURLParam(){
 	var urlstring = location.href
     var url = new URL(urlstring)
     return url.searchParams.get('tagid')
 }
-function AjaxgetTotal(datajson, pageparam123) {
-	return $.ajax({
-		type: "post",
-		url: "/Sinyatagtotal/" + pageparam123,
-		contentType: 'application/json;charset=utf-8',
-		data: datajson,
-		async: !1,
-	})
-}
-function AjaxgetTotal(datajson, pageparam123) {
-	return $.ajax({
-		type: "post",
-		url: "/Sinyatagtotal/" + pageparam123,
-		contentType: 'application/json;charset=utf-8',
-		data: datajson,
-		async: !1,
-	})
-}
-
 function AjaxgetTag(datajson) {
 	return $.ajax({
 		type: "post",

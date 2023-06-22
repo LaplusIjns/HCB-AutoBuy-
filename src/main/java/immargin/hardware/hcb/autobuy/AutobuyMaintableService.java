@@ -1,6 +1,7 @@
 package immargin.hardware.hcb.autobuy;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +15,18 @@ import org.springframework.data.domain.Pageable;
 
 import org.springframework.stereotype.Service;
 
+import immargin.hardware.hcb.DTO.FormData;
 import immargin.hardware.hcb.DTO.MaintableDTO;
+import immargin.hardware.hcb.DTO.SinyaFormDTO;
+import immargin.hardware.hcb.DTO.TagDTO;
+import immargin.hardware.hcb.model.Maintable;
+import immargin.hardware.hcb.model.SinyaTagprod;
+import immargin.hardware.hcb.model.Sinyamaintable;
+import immargin.hardware.hcb.model.Tagprod;
+import immargin.hardware.hcb.query.AutobuyFindByNameSpecification;
+import immargin.hardware.hcb.query.AutobuyFormSpecification;
+import immargin.hardware.hcb.query.SinyaFindByNameSpecification;
+import immargin.hardware.hcb.query.SinyaFormSpecification;
 import immargin.hardware.hcb.sinya.SinyaMaintableRepository;
 
 
@@ -24,60 +36,71 @@ public class AutobuyMaintableService {
 	
 	@Autowired
 	private MaintableRepository maintableRepository;
-	@Autowired
-    private SinyaMaintableRepository sinyaMaintableRepository;
+	
 //	AutoBuy
 	//搜尋欄
-	public List<MaintableDTO> blurSearchMaintable(String prodname,int page,int size){
-		List<MaintableDTO> pageResult = null;
-		Pageable pageable=PageRequest.of(page, size);
-		String[] newStr = prodname.split("\\s+");
-		if(newStr.length==1) {
-		pageResult =maintableRepository.findByName(prodname,pageable).getContent();
-		}else if(newStr.length==2){
-		pageResult =maintableRepository.findByName2(newStr[0],newStr[1],pageable).getContent();
-		}else if(newStr.length==3){
-			pageResult =maintableRepository.findByName3(newStr[0],newStr[1],newStr[2],pageable).getContent();
-		}else if(newStr.length==4){
-            pageResult =maintableRepository.findByName4(newStr[0],newStr[1],newStr[2],newStr[3],pageable).getContent();
-        }else if(newStr.length==5){
-            pageResult =maintableRepository.findByName5(newStr[0],newStr[1],newStr[2],newStr[3],newStr[4],pageable).getContent();
-        }else {
-            pageResult =maintableRepository.findByName6(newStr[0],newStr[1],newStr[2],newStr[3],newStr[4],newStr[5],pageable).getContent();
-        }
-		return pageResult;
+	public Page<Maintable> blurSearchMaintable(String prodname){
+	    Pageable pageable=PageRequest.of(0,20);
+	    AutobuyFindByNameSpecification specification = new AutobuyFindByNameSpecification(prodname);
+	    return maintableRepository.findAll(specification,pageable);
 	}
 	
 	//搜尋總頁數元素
-	public int[] gettotal(String prodname,int page,int size){
-        Page<MaintableDTO> pageResult = null;
-        int[] abc= new int[2];
-        Pageable pageable=PageRequest.of(page, size);
-        String[] newStr = prodname.split("\\s+");
-        if(newStr.length==1) {
-        pageResult =maintableRepository.findByName(prodname,pageable);
-        }else if(newStr.length==2){
-        pageResult =maintableRepository.findByName2(newStr[0],newStr[1],pageable);
-        }else if(newStr.length==3){
-            pageResult =maintableRepository.findByName3(newStr[0],newStr[1],newStr[2],pageable);
-        }else if(newStr.length==4){
-            pageResult =maintableRepository.findByName4(newStr[0],newStr[1],newStr[2],newStr[3],pageable);
-        }else if(newStr.length==5){
-            pageResult =maintableRepository.findByName5(newStr[0],newStr[1],newStr[2],newStr[3],newStr[4],pageable);
-        }else {
-            pageResult =maintableRepository.findByName6(newStr[0],newStr[1],newStr[2],newStr[3],newStr[4],newStr[5],pageable);
+	public Page<Maintable> getAutobuyblurSearchMaintable(String prodname){
+        Pageable pageable=PageRequest.of(0,20);
+        AutobuyFindByNameSpecification specification = new AutobuyFindByNameSpecification(prodname);
+        return maintableRepository.findAll(specification, pageable);
+}
+	
+	// 分析 getAutobuyblurSearchMaintable 結果
+    public List<SinyaFormDTO> parseAutobuyblurSearchMaintable(Page<Maintable> maintablePage){
+        List<Maintable> Result = null;
+        List<SinyaFormDTO> sinyaFormDTOList = new ArrayList<>();
+        Result = maintablePage.getContent();
+        
+        for (Maintable maintable : Result) {
+            SinyaFormDTO sinyaFormDTO = new SinyaFormDTO(maintable.getProdname(), maintable.getProdId(), null, null, null);
+            sinyaFormDTOList.add(sinyaFormDTO);
         }
-        pageResult.getTotalPages();
-        abc[0] = pageResult.getTotalPages();
-        abc[1] =(int) pageResult.getTotalElements();
-        return abc;
+        return sinyaFormDTOList;
+        
+    }
+    
+    public Optional<MaintableDTO> AutobuygetProdname(String id) {
+        Optional<MaintableDTO> result = null;
+        result = maintableRepository.findMaintableDTOByProdId(id);
+        return result;
+    }
+    
+   public Page<Maintable> getAutobuymaintablePage(FormData formData){
+        
+        //formData.getpage
+        Pageable pageable=PageRequest.of(formData.getPage()-1, 20);
+        AutobuyFormSpecification sinyaSpecification = new AutobuyFormSpecification(formData);
+//        System.out.println( sinyaSpecification.toString() );
+        Page<Maintable> findall = maintableRepository.findAll(sinyaSpecification,pageable);
+        return findall;
     }
 	
-	public Optional<MaintableDTO> getProdname(String id) {
-	    Optional<MaintableDTO> result ;
-	    result = maintableRepository.findMaintableDTOByProdId(id);
-	    return result;
-	}
+    public List<SinyaFormDTO> parseAutobuymaintablePage(Page<Maintable> autobuymaintablePage) {
+        List<Maintable> Result = null;
+        List<SinyaFormDTO> autobuyFormDTOList = new ArrayList<>();
+        Result = autobuymaintablePage.getContent();
+        
+        for (Maintable sinyamaintable : Result) {
+            List<Tagprod> sinyaTagprods = sinyamaintable.getTagprods();
+            List<TagDTO> tagnameDTOList = new ArrayList<>(); 
+            for (Tagprod sinyaTagprod : sinyaTagprods) {
+               TagDTO tmpParam = new TagDTO(sinyaTagprod.getTagcompares().getTagID(), sinyaTagprod.getTagcompares().getTagzhtw());
+               tagnameDTOList.add(tmpParam);
+            }
+            SinyaFormDTO sinyaFormDTO = new SinyaFormDTO(sinyamaintable.getProdname(), sinyamaintable.getProdId(), sinyamaintable.getLastprice(), sinyamaintable.getLastUpdateDate(), tagnameDTOList);
+            autobuyFormDTOList.add(sinyaFormDTO);
+        }
+        return autobuyFormDTOList;
+    }
+	
+	
 	@Cacheable(value="DailyNew", key="#cacheDateString", unless=" (#cacheDateString.equals(#nowString)) ")
     public List<MaintableDTO> DailyNew(Integer index,String cacheDateString,String nowString){
         List<MaintableDTO> Result = null;

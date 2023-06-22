@@ -33,17 +33,12 @@ public class TagService {
         result = tagRepository.findByTagName(name,pageable).getContent();
         return result;
     }
-    
     //搜尋tag總元素
-    public int[] gettagtotal(String name,Integer page,Integer size){
+    public Page<MaintableDTO> AutobuyTagPage(String name,Integer page,Integer size){
         Page<MaintableDTO> pageResult = null;
-        int[] abc= new int[2];
         Pageable pageable=PageRequest.of(page, size);
         pageResult = tagRepository.findByTagName(name, pageable);
-        abc[0] = pageResult.getTotalPages();
-        abc[1] = (int) pageResult.getTotalElements();
-        
-        return abc;
+        return pageResult;
     }
     public Optional<TagnameDTO> getTagname(String name){
         Optional<TagnameDTO> result = null;
@@ -64,27 +59,12 @@ public class TagService {
         result = tagRepository.SinyafindByTagName(name,pageable).getContent();
         return result;
     }
-    
-    //搜尋tag總元素
-    public int[] Sinyagettagtotal(String name,Integer page,Integer size){
-        Page<MaintableDTO> pageResult = null;
-        int[] abc= new int[2];
-        Pageable pageable=PageRequest.of(page, size);
-        pageResult = tagRepository.SinyafindByTagName(name, pageable);
-        abc[0] = pageResult.getTotalPages();
-        abc[1] = (int) pageResult.getTotalElements();
-        
-        return abc;
-    }
+
   //搜尋tag總元素
     public Page<MaintableDTO> SinyaTagPage(String name,Integer page,Integer size){
         Page<MaintableDTO> pageResult = null;
-//        int[] abc= new int[2];
         Pageable pageable=PageRequest.of(page, size);
         pageResult = tagRepository.SinyafindByTagName(name, pageable);
-//        abc[0] = pageResult.getTotalPages();
-//        abc[1] = (int) pageResult.getTotalElements();
-        
         return pageResult;
     }
     

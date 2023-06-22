@@ -1,10 +1,15 @@
 package immargin.hardware.hcb.model;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
@@ -31,6 +36,9 @@ public class Maintable {
 	
 	@Column(name="lastprice", columnDefinition = "varchar")
     private Integer lastprice;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "fkProdId",fetch = FetchType.EAGER)
+    List<Tagprod>  Tagprods;
 	
 	@Transient
 	private String page;
@@ -93,5 +101,15 @@ public class Maintable {
     public void setLastprice(Integer lastprice) {
         this.lastprice = lastprice;
     }
+
+    public List<Tagprod> getTagprods() {
+        return Tagprods;
+    }
+
+    public void setTagprods(List<Tagprod> tagprods) {
+        Tagprods = tagprods;
+    }
+    
+    
     
 }

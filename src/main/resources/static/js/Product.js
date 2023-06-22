@@ -8,42 +8,22 @@ function parseTime(inputTime){
 
 }
 
-function Ajexgetitem(prod_id){
-    return $.ajax({
-		type: "post",
-		url: "/findprod4/"+prod_id,
-		contentType:'charset=utf-8',
-		// data:datajson,
-		async: !1,
-	})
-}
-
-function Ajexgetitemname(prod_id){
-    return $.ajax({
-		type: "post",
-		url: "/findprod3/"+prod_id,
-		contentType:'charset=utf-8',
-		// data:datajson,
-		async: !1,
-	})
-}
-
 function getURLParam(){
 	var urlstring = location.href
     var url = new URL(urlstring)
     return url.searchParams.get('prodid')
 }
 
-
-function Ajexgetag(prod_id){
+function AjexSinyaProduct(prod_id){
     return $.ajax({
 		type: "post",
-		url: "/tag/"+prod_id,
+		url: "/AutobuyProduct/"+prod_id,
 		contentType:'charset=utf-8',
 		// data:datajson,
 		async: !1,
 	})
 }
+
 function drawtag(tagsheet){
 
 	$("#tagsection").empty();
@@ -119,7 +99,8 @@ function drawchart(datasheet){
 			}]}
 		},
 
-	  })}catch(e){
+	  })
+	  }catch(e){
 		  console.log(e)
 	  }
 	  originalhigh = $("#historyhigh").text()
@@ -135,19 +116,19 @@ function drawchart(datasheet){
 $(function(){
 	prod_id = getURLParam();
 	console.log(prod_id)
-	var hellohowareyou = Ajexgetitemname(prod_id)["responseJSON"]["prodname"];
-    document.getElementById("hellohowareyou").innerText = hellohowareyou;
+	data = AjexSinyaProduct(prod_id)["responseJSON"]
+	console.log(data)
+	
+	var hellohowareyou = data["productname"]["prodname"];
+	$("#hellohowareyou").text(hellohowareyou)
 
-	// prod_name = 
-	// console.log(prod_name)
 
-    datasheet= Ajexgetitem(prod_id)["responseJSON"];
+    datasheet= data["priceanddate"];
 	console.log(datasheet)
 	drawchart(datasheet)
 
-	tagsheet = Ajexgetag(prod_id)
+	tagsheet = data["taginfo"];
 	if(tagsheet !=null){
-		tagsheet = tagsheet["responseJSON"]
 		drawtag(tagsheet)
 	}
 
