@@ -18,8 +18,6 @@ import immargin.hardware.hcb.DTO.SinyaFormDTO;
 import immargin.hardware.hcb.DTO.TagDTO;
 import immargin.hardware.hcb.model.SinyaTagprod;
 import immargin.hardware.hcb.model.Sinyamaintable;
-import immargin.hardware.hcb.query.SinyaFindByNameSpecification;
-import immargin.hardware.hcb.query.SinyaFormSpecification;
 
 
 @Service
@@ -33,8 +31,8 @@ public class SinyaMaintableService {
 	//搜尋欄
     public Page<Sinyamaintable> getSinyablurSearchMaintable(String prodname){
             Pageable pageable=PageRequest.of(0,20);
-            SinyaFindByNameSpecification specification = new SinyaFindByNameSpecification(prodname);
-            return sinyaMaintableRepository.findAll(specification, pageable);
+//            SinyaFindByNameSpecification specification = new SinyaFindByNameSpecification(prodname);
+            return sinyaMaintableRepository.findAll(SinyaMaintableRepository.SinyaFindByNameSpecification(prodname), pageable);
     }
     
     // 分析 getSinyablurSearchMaintable 結果
@@ -69,9 +67,9 @@ public class SinyaMaintableService {
         
         //formData.getpage
         Pageable pageable=PageRequest.of(formData.getPage()-1, 20);
-        SinyaFormSpecification sinyaSpecification = new SinyaFormSpecification(formData);
+//        SinyaFormSpecification sinyaSpecification = new SinyaFormSpecification(formData);
 //        System.out.println( sinyaSpecification.toString() );
-        Page<Sinyamaintable> findall = sinyaMaintableRepository.findAll(sinyaSpecification,pageable);
+        Page<Sinyamaintable> findall = sinyaMaintableRepository.findAll(SinyaMaintableRepository.SinyaFormSpecification(formData),pageable);
         return findall;
     }
     

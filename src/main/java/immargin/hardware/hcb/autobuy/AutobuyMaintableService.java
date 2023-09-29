@@ -20,14 +20,7 @@ import immargin.hardware.hcb.DTO.MaintableDTO;
 import immargin.hardware.hcb.DTO.SinyaFormDTO;
 import immargin.hardware.hcb.DTO.TagDTO;
 import immargin.hardware.hcb.model.Maintable;
-import immargin.hardware.hcb.model.SinyaTagprod;
-import immargin.hardware.hcb.model.Sinyamaintable;
 import immargin.hardware.hcb.model.Tagprod;
-import immargin.hardware.hcb.query.AutobuyFindByNameSpecification;
-import immargin.hardware.hcb.query.AutobuyFormSpecification;
-import immargin.hardware.hcb.query.SinyaFindByNameSpecification;
-import immargin.hardware.hcb.query.SinyaFormSpecification;
-import immargin.hardware.hcb.sinya.SinyaMaintableRepository;
 
 
 @Service
@@ -41,15 +34,13 @@ public class AutobuyMaintableService {
 	//搜尋欄
 	public Page<Maintable> blurSearchMaintable(String prodname){
 	    Pageable pageable=PageRequest.of(0,20);
-	    AutobuyFindByNameSpecification specification = new AutobuyFindByNameSpecification(prodname);
-	    return maintableRepository.findAll(specification,pageable);
+	    return maintableRepository.findAll(MaintableRepository.AutobuyFindByNameSpecification(prodname),pageable);
 	}
 	
 	//搜尋總頁數元素
 	public Page<Maintable> getAutobuyblurSearchMaintable(String prodname){
         Pageable pageable=PageRequest.of(0,20);
-        AutobuyFindByNameSpecification specification = new AutobuyFindByNameSpecification(prodname);
-        return maintableRepository.findAll(specification, pageable);
+        return maintableRepository.findAll(MaintableRepository.AutobuyFindByNameSpecification(prodname), pageable);
 }
 	
 	// 分析 getAutobuyblurSearchMaintable 結果
@@ -76,9 +67,8 @@ public class AutobuyMaintableService {
         
         //formData.getpage
         Pageable pageable=PageRequest.of(formData.getPage()-1, 20);
-        AutobuyFormSpecification sinyaSpecification = new AutobuyFormSpecification(formData);
 //        System.out.println( sinyaSpecification.toString() );
-        Page<Maintable> findall = maintableRepository.findAll(sinyaSpecification,pageable);
+        Page<Maintable> findall = maintableRepository.findAll(MaintableRepository.AutobuyFormSpecification(formData),pageable);
         return findall;
     }
 	

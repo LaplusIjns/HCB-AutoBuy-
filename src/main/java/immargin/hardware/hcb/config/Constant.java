@@ -13,5 +13,6 @@ public class Constant {
     public static final String URL_METHOD_GET = "GET";
     public static final String ICON_PATH = "/".concat("favicon.ico");
     public static final String ERROR_PATH = "/".concat("error");
+    public static final String BAN_PATH = "/".concat("banip");
     public static final String PERCENT = "%";
 }

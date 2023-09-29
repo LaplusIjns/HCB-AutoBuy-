@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 @SpringBootApplication
 @EnableScheduling
 @EnableCaching
-public class HcbApplication extends WebMvcConfigurationSupport {
+public class HcbApplication{
 
 	public static void main(String[] args) {
 		SpringApplication.run(HcbApplication.class, args);

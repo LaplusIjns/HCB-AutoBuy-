@@ -28,21 +28,21 @@ public class BlacklistService {
         String[] urlPaths = blacklist.getUrlPath().split(",");
         boolean notIn = true;
         for (String string : urlPaths) {
-            if(string.equals(urlPath))
-                notIn = false;
+            if(urlPath.contains(string))
+                 notIn = false;
         }
         
         if(notIn)
-            blacklist.setUrlPath(blacklist.getUrlPath()+Constant.DOT+urlPath);
+            blacklist.setUrlPath(blacklist.getUrlPath().concat(Constant.DOT).concat(urlPath));
         
         blacklist.setCountNumber(blacklist.getCountNumber() + 1);
         blacklist.setUpdateTime(new Date());
-        return blacklistRepository.save(blacklist);
+        return blacklistRepository.saveAndFlush(blacklist);
         
     }
     
     public Blacklist save(Blacklist blacklist) {
-        return blacklistRepository.save(blacklist);
+        return blacklistRepository.saveAndFlush(blacklist);
     }
 
 }
