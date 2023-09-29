@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-TW" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<!-- Google tag (gtag.js) -->
+<meta th:replace="~{/comp/library::googletag}" ></meta>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- CSS -->
+<link rel="stylesheet" href="../../static/css/main.css" th:href="@{/css/main.css}" />
+<meta th:replace="~{/comp/library::maincss}" />
+<!-- JS -->
+<meta th:replace="~{/comp/library::mainjs}" />
+</head>
+
+<body>
+  <main class="bgcolor">
+	<section layout:fragment="header">
+		<nav th:replace="~{/comp/header.html::header2}">
+			這裡是置頂
+		</nav>
+  	</section>
+    <section layout:fragment="content">
+    	<p>Page content goes here</p>
+  	</section>
+	<section layout:fragment="footer">
+    	<footer th:replace="~{/comp/footer::footer1}">
+        	<footer th:replace="~{/comp/footer::footer1}">
+				這裡是置底
+			</footer>
+        </footer>
+    </section>
+  </main>
+
+</body>
+
+</html>

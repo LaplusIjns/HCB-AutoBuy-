@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import nz.net.ultraq.thymeleaf.layoutdialect.LayoutDialect;
+
 @Configuration
 public class WebMVCConfigs implements WebMvcConfigurer {
     
@@ -22,5 +24,10 @@ public class WebMVCConfigs implements WebMvcConfigurer {
         registrationBean.setOrder(1);
         return registrationBean;    
     }
+    
+    @Bean LayoutDialect layoutDialect() {
+        return new LayoutDialect();
+    }
+    
 
 }
