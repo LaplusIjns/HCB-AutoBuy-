@@ -1,5 +1,5 @@
 index = 0;
-
+canUpdate = true;
 function AjaxgetDaily(index) {
 	return $.ajax({
 		type: "post",
@@ -8,25 +8,62 @@ function AjaxgetDaily(index) {
 		async: !1,
 	})
 }
-function parsegetDaily() {
-	dailydata = AjaxgetDaily(index)
-	if (dailydata["status"] == 404) {
-		tiletime()
+function AsyncAjaxgetDaily(index) {
+	if(canUpdate){
+	canUpdate = false;
+	let $template = `<li id="loading"><span class="spinner-border mx-2" role="status" ></span><span class="mx-2">載入中</span></li>`
+	let test = $($template)
+	test.appendTo("#result")
 		
-		$template = `<li class="SelectProduct" ><div class="text-secondary mb-sm-1 mb-md-3 mb-5">無資料</div></li>`
-		test = $($template)
-		test.appendTo("#result")
-	
-		console.log("無資料")
-		
-	} else if (dailydata["status"] == 200) {
-		tiletime()
-		console.log(dailydata["responseJSON"])
-		data = dailydata["responseJSON"]
-		tiledata(data)
-		
+	$.ajax({
+		type: "post",
+		url: "/dailynew/" + index,
+		contentType: 'application/json;charset=utf-8',
+		async: 1,
+		success:function(response){
+			console.log(response)
+			$("#loading").remove();
+			
+			tiletime()
+			tiledata(response)
+			canUpdate = true;
+		},
+	error:function(response){		
+			$("#loading").remove();				
+			tiletime()
+			let $template = `<li class="SelectProduct" ><div class="text-secondary mb-sm-1 mb-md-3 mb-5">無資料</div></li>`
+			let test = $($template)
+			test.appendTo("#result")
+			canUpdate = true;
+		}
+	})	
 	}
+}
+//function parsegetDaily() {
+//	dailydata = AjaxgetDaily(index)
+//	if (dailydata["status"] == 404) {
+//		tiletime()
+//		
+//		$template = `<li class="SelectProduct" ><div class="text-secondary mb-sm-1 mb-md-3 mb-5">無資料</div></li>`
+//		test = $($template)
+//		test.appendTo("#result")
+//	
+//		console.log("無資料")
+//		
+//	} else if (dailydata["status"] == 200) {
+//		tiletime()
+//		console.log(dailydata["responseJSON"])
+//		data = dailydata["responseJSON"]
+//		tiledata(data)
+//		
+//	}
+//	index++;
+//}
+function parsegetDaily() {
+	if(canUpdate){
 	index++;
+	AsyncAjaxgetDaily(index)
+	}
 }
 function tiletime(){
 	var d = new Date();
@@ -65,22 +102,25 @@ function init() {
 //	});
 	window.addEventListener('scroll',function() {
 		if (document.documentElement.scrollTop + 10 >= document.documentElement.scrollHeight - document.documentElement.clientHeight) {
-			window.clearTimeout(timer);
-			timer = window.setTimeout(function() {
-				console.log("scroll!");
-				parsegetDaily()
-				//			
-			}, 500)
+//			window.clearTimeout(timer);
+//			timer = window.setTimeout(function() {
+//				console.log("scroll!");
+//				parsegetDaily()
+//				//			
+//			}, 500)
+			parsegetDaily()
 		}
 	})
 		window.addEventListener('touchmove',function() {
 			if($(window).scrollTop()+window.innerHeight>=document.body.scrollHeight-30){
-			window.clearTimeout(timer);
-			timer = window.setTimeout(function() {
-				console.log("scroll!");
-				parsegetDaily()
-				//			
-			}, 300)}
+//			window.clearTimeout(timer);
+//			timer = window.setTimeout(function() {
+//				console.log("scroll!");
+//				parsegetDaily()
+//				//			
+//			}, 300)
+			parsegetDaily()
+			}
 			})
 }
 function initdata(flag) {
