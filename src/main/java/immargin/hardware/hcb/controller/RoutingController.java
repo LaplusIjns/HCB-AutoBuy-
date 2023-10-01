@@ -8,40 +8,40 @@ public class RoutingController {
 //	AutoBuy
 	@GetMapping({"/"})
 	public String home() {
-		return "/index";
+		return "index";
 	}
 	
 	@GetMapping({"/Autobuy"})
     public String home2() {
-        return "/Autobuy";
+        return "Autobuy";
     }
 	
 	@GetMapping({"/Product"})
     public String prod() {
-        return "/Product";
+        return "Product";
     }
 	
 	@GetMapping({"/tag"})
     public String tag() {
-        return "/tag";
+        return "tag";
     }
 	@GetMapping({"/AutobuyDaily"})
     public String daily() {
-        return "/AutobuyDaily";
+        return "AutobuyDaily";
     }
 	@GetMapping({"/Dailynew"})
     public String dailynew() {
-        return "/Dailynew";
+        return "Dailynew";
     }
 //	Sinya
 	@GetMapping({"/Sinya"})
     public String sinyaHome() {
-        return "/Sinyaindex";
+        return "Sinyaindex";
     }
     
     @GetMapping({"/SinyaProduct"})
     public String sinyaprod() {
-        return "/SinyaProduct";
+        return "SinyaProduct";
     }
     
     @GetMapping({"/Sinyatag"})
