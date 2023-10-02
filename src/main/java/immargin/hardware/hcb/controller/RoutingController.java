@@ -10,7 +10,7 @@ public class RoutingController {
 	public String home() {
 		return "index";
 	}
-	
+		
 	@GetMapping({"/Autobuy"})
     public String home2() {
         return "Autobuy";
@@ -20,7 +20,7 @@ public class RoutingController {
     public String prod() {
         return "Product";
     }
-	
+		
 	@GetMapping({"/tag"})
     public String tag() {
         return "tag";
@@ -46,20 +46,20 @@ public class RoutingController {
     
     @GetMapping({"/Sinyatag"})
     public String sinyatag() {
-        return "/Sinyatag";
+        return "Sinyatag";
     }
     @GetMapping({"/SinyaDaily"})
     public String sinyaDaily() {
-        return "/SinyaDaily";
+        return "SinyaDaily";
     }
     @GetMapping({"/SinyaDailynew"})
     public String sinyaDailynew() {
-        return "/SinyaDailynew";
+        return "SinyaDailynew";
     }
     
     @GetMapping({"/banip"})
     public String banip() {
-        return "/banip";
+        return "banip";
     }
     
 }
