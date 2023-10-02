@@ -22,10 +22,10 @@ public class Maintable {
 	@Column(name="prod_id", columnDefinition = "char")
 	private String prodId;
 	
-	@Column(name="inital_date")
+	@Column(name="inital_date",columnDefinition = "DATE")
 	private java.util.Date initalDate;
 	
-	@Column(name="last_update_date")
+	@Column(name="last_update_date",columnDefinition = "DATE")
 	private java.util.Date lastUpdateDate;
 	
 	@Column(name="prodavailable",columnDefinition = "BIT(1)")

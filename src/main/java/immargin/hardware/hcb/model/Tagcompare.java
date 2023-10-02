@@ -43,7 +43,7 @@ public class Tagcompare {
 	@Column(name="tag_zhtw", columnDefinition = "char")
 	private String Tagzhtw;
 	
-	@Column(name="create_date")
+	@Column(name="create_date",columnDefinition = "DATE")
 	private java.util.Date Initaldate;
 	
 

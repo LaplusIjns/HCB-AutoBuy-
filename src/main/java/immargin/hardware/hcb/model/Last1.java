@@ -20,7 +20,7 @@ public class Last1 {
 	@Column(name="price")
 	private Integer price;
 	
-	@Column(name="upload_date")
+	@Column(name="upload_date",columnDefinition = "DATE")
 	private java.util.Date Uploaddate;
 
 }

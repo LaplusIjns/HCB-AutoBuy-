@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -12,19 +13,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.lang.Nullable;
 import org.thymeleaf.util.ListUtils;
 
 import immargin.hardware.hcb.DTO.DailyDTO;
 import immargin.hardware.hcb.DTO.MaintableDTO;
+import immargin.hardware.hcb.DTO.TagnameDTO;
 import immargin.hardware.hcb.autobuy.AutobuyMaintableService;
 import immargin.hardware.hcb.autobuy.MaintableRepository;
 import immargin.hardware.hcb.config.CommoUtils;
 import immargin.hardware.hcb.model.Blacklist;
 import immargin.hardware.hcb.model.Maintable;
+import immargin.hardware.hcb.model.Tag;
+import immargin.hardware.hcb.model.Tagprod;
 import immargin.hardware.hcb.repository.BlacklistRepository;
+import immargin.hardware.hcb.repository.LastJDBCTemplate;
 import immargin.hardware.hcb.repository.LastRepository;
 import immargin.hardware.hcb.service.BlacklistService;
 import immargin.hardware.hcb.service.LastService;
@@ -55,6 +66,12 @@ class HcbApplicationTests {
     
     @Autowired
     BlacklistService blacklistService;
+    
+    @Autowired
+    JdbcTemplate jdbctemplate;
+    
+    @Autowired
+    LastJDBCTemplate lastJDBCTemplate;
 
     private static final Logger log = LoggerFactory.getLogger(HcbApplicationTests.class);
 
@@ -64,7 +81,40 @@ class HcbApplicationTests {
 //	
 //	@Test
 //	void method1() {
-//		maintableService.blurSearchMaintable("asus",0,20);
+//		maintableService.blurSearchMaintable("asus",0,20);\
+//	    try {
+//	    String name = "3";
+//	    List<Map<String, Object>> X = jdbctemplate.queryForList("""
+//	            SELECT t.fk_tag,y.tag_zhtw from tag_prod t INNER JOIN tag_compare y ON y.tag_id = t.fk_tag WHERE t.fk_prod_id = ?1
+//	            """,new Object[] {name});
+//	    List<Tag> X = jdbctemplate.query("""
+//                SELECT t.fk_tag,y.tag_zhtw from tag_prod t INNER JOIN tag_compare y ON y.tag_id = t.fk_tag WHERE t.fk_prod_id = ?
+//                """,new BeanPropertyRowMapper<>(Tag.class),new Object[] {"prod_329275"});
+//	    
+//	    for (Tag tagnameDTO : X) {
+//            System.out.println(tagnameDTO.getTagZhtw() );
+//            System.out.println(tagnameDTO.getFkTag() );
+//            System.out.println("=========");
+//        }
+	    
+//	    for (Map<String, Object> map1 : X) {
+//	        map1.forEach((k,v)->{
+//	            System.out.println(k+"  "+v);
+//	            });
+//	        System.out.println("=====");
+//        }
+	        
+//	        List<Map<String, Object>> x = lastJDBCTemplate.getProd("last_".concat(String.valueOf(0)), "prod_336520");
+//	        List<Map<String, Object>> x = lastJDBCTemplate.getSinyaDaily(7, 8);
+//	        for (Map<String, Object> map : x) {
+//                map.forEach( (k,v)->System.out.println(k+"  "+v) );
+//                System.out.println("======");
+//            }
+//	    System.out.println("OK");
+//	    }catch (Exception e) {
+//	        e.printStackTrace();
+//        }
+//	    
 //	}
 //    @Test
 //    void method1() {

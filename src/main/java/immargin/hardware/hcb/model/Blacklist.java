@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.springframework.stereotype.Component;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -18,6 +19,7 @@ public class Blacklist {
     
     private Integer countNumber;
     
+    @Column(name="update_time",columnDefinition = "DATE")
     private Date updateTime;
     
     private String urlPath;
