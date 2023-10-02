@@ -32,10 +32,10 @@ import immargin.hardware.hcb.autobuy.MaintableRepository;
 import immargin.hardware.hcb.config.CommoUtils;
 import immargin.hardware.hcb.model.Blacklist;
 import immargin.hardware.hcb.model.Maintable;
-import immargin.hardware.hcb.model.Tag;
+//import immargin.hardware.hcb.model.Tag;
 import immargin.hardware.hcb.model.Tagprod;
 import immargin.hardware.hcb.repository.BlacklistRepository;
-import immargin.hardware.hcb.repository.LastJDBCTemplate;
+//import immargin.hardware.hcb.repository.LastJDBCTemplate;
 import immargin.hardware.hcb.repository.LastRepository;
 import immargin.hardware.hcb.service.BlacklistService;
 import immargin.hardware.hcb.service.LastService;
@@ -70,8 +70,8 @@ class HcbApplicationTests {
     @Autowired
     JdbcTemplate jdbctemplate;
     
-    @Autowired
-    LastJDBCTemplate lastJDBCTemplate;
+//    @Autowired
+//    LastJDBCTemplate lastJDBCTemplate;
 
     private static final Logger log = LoggerFactory.getLogger(HcbApplicationTests.class);
 
