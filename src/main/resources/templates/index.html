@@ -3,25 +3,25 @@
 
 <head>
 <!-- Google tag (gtag.js) -->
-<meta th:replace="~{/comp/library::googletag}" />
+<meta th:replace="~{comp/library::googletag}" />
 <meta charset="UTF-8">
 <base th:href="@{/}">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- CSS -->
 <link rel="stylesheet" href="../../static/css/main.css" th:href="@{/css/main.css}" />
-<meta th:replace="~{/comp/library::maincss}" />
+<meta th:replace="~{comp/library::maincss}" />
 <!-- JS -->
-<meta th:replace="~{/comp/library::mainjs}" />
+<meta th:replace="~{comp/library::mainjs}" />
 <script src="../../static/js/main.js" th:src="@{/js/main.js}" type="text/javascript"></script>
 <title>HCB首頁</title>
 </head>
 <body>
 
 	<main class="bgcolor">
-		<nav th:replace="~{/comp/header.html::header2}">這裡是置頂</nav>
-		<div th:replace="~{/comp/main.html::work}">主體</div>
-		<footer th:replace="~{/comp/footer::footer1}"> 這裡是置底 </footer>
+		<nav th:replace="~{comp/header::header2}">這裡是置頂</nav>
+		<div th:replace="~{comp/main::work}">主體</div>
+		<footer th:replace="~{comp/footer::footer1}"> 這裡是置底 </footer>
 	</main>
 
 </body>
