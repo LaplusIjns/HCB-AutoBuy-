@@ -24,7 +24,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.lang.Nullable;
 import org.thymeleaf.util.ListUtils;
 
-import immargin.hardware.hcb.DTO.DailyDTO;
+import immargin.hardware.hcb.DTO.DailyDTO2;
 import immargin.hardware.hcb.DTO.MaintableDTO;
 import immargin.hardware.hcb.DTO.TagnameDTO;
 import immargin.hardware.hcb.autobuy.AutobuyMaintableService;
@@ -35,8 +35,7 @@ import immargin.hardware.hcb.model.Maintable;
 //import immargin.hardware.hcb.model.Tag;
 import immargin.hardware.hcb.model.Tagprod;
 import immargin.hardware.hcb.repository.BlacklistRepository;
-//import immargin.hardware.hcb.repository.LastJDBCTemplate;
-import immargin.hardware.hcb.repository.LastRepository;
+import immargin.hardware.hcb.repository.LastJDBCTemplate;
 import immargin.hardware.hcb.service.BlacklistService;
 import immargin.hardware.hcb.service.LastService;
 import immargin.hardware.hcb.service.TagService;
@@ -70,8 +69,8 @@ class HcbApplicationTests {
     @Autowired
     JdbcTemplate jdbctemplate;
     
-//    @Autowired
-//    LastJDBCTemplate lastJDBCTemplate;
+    @Autowired
+    LastJDBCTemplate lastJDBCTemplate;
 
     private static final Logger log = LoggerFactory.getLogger(HcbApplicationTests.class);
 
@@ -81,6 +80,12 @@ class HcbApplicationTests {
 //	
 //	@Test
 //	void method1() {
+//	    
+//	    List<DailyDTO2> x = lastJDBCTemplate.getDaily(3, 4);
+//	    for (DailyDTO2 dailyDTO : x) {
+//            System.out.println(dailyDTO.getProdname());
+//        }
+	    
 //		maintableService.blurSearchMaintable("asus",0,20);\
 //	    try {
 //	    String name = "3";

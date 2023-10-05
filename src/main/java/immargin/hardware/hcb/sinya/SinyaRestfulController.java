@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
 
-import immargin.hardware.hcb.DTO.DailyDTO;
+import immargin.hardware.hcb.DTO.DailyDTO2;
 import immargin.hardware.hcb.DTO.FormData;
-import immargin.hardware.hcb.DTO.LastDTO;
+import immargin.hardware.hcb.DTO.LastDTO2;
 import immargin.hardware.hcb.DTO.MaintableDTO;
 import immargin.hardware.hcb.DTO.SinyaFormDTO;
 import immargin.hardware.hcb.DTO.TagnameDTO;
@@ -80,7 +80,7 @@ public class SinyaRestfulController {
         if(prodname.isPresent()) {
             result.put("productname", prodname);
             
-            List<LastDTO> priceanddate = lastService.SinyagetProd(id);
+            List<LastDTO2> priceanddate = lastService.SinyagetProd(id);
             result.put("priceanddate", priceanddate);
             
             List<TagnameDTO> taginfo = tagService.SinyaSearchbyProdname(id);
@@ -125,7 +125,7 @@ public class SinyaRestfulController {
     //每日更新價差
     @PostMapping(path = {"/Sinyadailyprice/{index}"})
     public ResponseEntity<?> findSinyaDailyprice(@PathVariable Integer index) {
-        List<DailyDTO> result=null;
+        List<DailyDTO2> result=null;
         
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -index);
