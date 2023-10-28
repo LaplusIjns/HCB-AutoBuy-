@@ -45,13 +45,14 @@ public class BlacklistFilter extends OncePerRequestFilter {
         String realIP =  IpUtils.getIpAddr(request);
         log.info("request ip : {} ,uri: {}",realIP,request.getRequestURI());
         if(inBlacklist(realIP, request)) {
+            log.info("已在黑名單重導 ip : {} ,uri: {}",realIP);
             response.sendRedirect(Constant.BAN_PATH);
             return;
         }
         filterChain.doFilter(request, response);
         
         if(isNotFound(realIP, request, response)) {
-            log.info("黑名單預備IP: {}",realIP);
+            log.info("黑名單預備IP: {} ,uri: {}",realIP,request.getRequestURI());
             blacklistService.findById(realIP).ifPresentOrElse(
                     blacklistvar -> {
                         if (CommoUtils.getDayFromTwoDate(new Date(), blacklistvar.getUpdateTime()) <= Constant.TIME_INTERVAL ) {
