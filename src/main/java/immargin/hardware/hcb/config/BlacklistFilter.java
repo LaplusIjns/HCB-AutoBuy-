@@ -47,6 +47,10 @@ public class BlacklistFilter extends OncePerRequestFilter {
         
         log.info("request ip : {} ,uri: {}",realIP,request.getRequestURI());
         
+        if(request.getMethod().equals("PROPFIND") ) {
+            response.sendRedirect(Constant.BAN_PATH);
+            return;
+        }
         
         if(inBlacklist(realIP, request)) {
             log.info("已在黑名單重導 ip : {} ,uri: {}",realIP,request.getRequestURI());
