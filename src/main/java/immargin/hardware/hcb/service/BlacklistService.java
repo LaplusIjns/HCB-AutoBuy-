@@ -26,6 +26,26 @@ public class BlacklistService {
         try {
             return blacklistRepository.findById(id);
         }catch (JpaSystemException e) {
+//            List<Blacklist> findList = blacklistRepository.findAllById( List.of(id) );
+//            blacklistRepository.deleteAllById(List.of(id));
+//            int count = 0;
+//            StringBuilder path = new StringBuilder();
+//            for (Blacklist blacklist : findList) {
+//                count += blacklist.getCountNumber().intValue();
+//                path.append(blacklist.getUrlPath());
+//            }
+//            Blacklist result = new Blacklist(id, count, new Date(), path.toString());
+//            blacklistRepository.saveAndFlush(result);
+//            
+//            Optional<Blacklist> returnValue = Optional.of(result);
+//            return returnValue;
+            
+            return fixDuplicateRows(id);
+        }
+    }
+    public Optional<Blacklist> fixDuplicateRows(String id) {
+        try {
+            
             List<Blacklist> findList = blacklistRepository.findAllById( List.of(id) );
             blacklistRepository.deleteAllById(List.of(id));
             int count = 0;
@@ -39,6 +59,10 @@ public class BlacklistService {
             
             Optional<Blacklist> returnValue = Optional.of(result);
             return returnValue;
+            
+        } catch (Exception e) {
+
+            return fixDuplicateRows(id);
         }
     }
 
