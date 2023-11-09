@@ -40,12 +40,14 @@ public class BlacklistService {
 //            Optional<Blacklist> returnValue = Optional.of(result);
 //            return returnValue;
             
-            return fixDuplicateRows(id);
+            return fixDuplicateRows(id,0);
         }
     }
-    public Optional<Blacklist> fixDuplicateRows(String id) {
+    public Optional<Blacklist> fixDuplicateRows(String id,int countTime) {
         try {
-            
+            if(countTime==5) {
+                return Optional.of(new Blacklist(id, 100, new Date(),""));
+            }
             List<Blacklist> findList = blacklistRepository.findAllById( List.of(id) );
             blacklistRepository.deleteAllById(List.of(id));
             int count = 0;
@@ -61,8 +63,11 @@ public class BlacklistService {
             return returnValue;
             
         } catch (Exception e) {
-
-            return fixDuplicateRows(id);
+            countTime++;
+            if(countTime==5) {
+                return Optional.of(new Blacklist(id, 100, new Date(), ""));
+            }
+            return fixDuplicateRows(id,countTime);
         }
     }
 

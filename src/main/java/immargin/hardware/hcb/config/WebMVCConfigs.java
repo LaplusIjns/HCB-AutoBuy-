@@ -20,6 +20,9 @@ public class WebMVCConfigs implements WebMvcConfigurer {
     
     @Autowired
     BlacklistFilter blacklistFilter;
+    
+    @Autowired
+    TimeLimitFilter timeLimitFilter;
 
     @Bean
     FilterRegistrationBean<BlacklistFilter> loggingFilter(){
@@ -28,7 +31,20 @@ public class WebMVCConfigs implements WebMvcConfigurer {
           = new FilterRegistrationBean<>();
             
         registrationBean.setFilter(blacklistFilter);
+        registrationBean.setOrder(2);
+
+        return registrationBean;    
+    }
+    
+    @Bean
+    FilterRegistrationBean<TimeLimitFilter> timeFilter(){
+        
+        FilterRegistrationBean<TimeLimitFilter> registrationBean 
+          = new FilterRegistrationBean<>();
+            
+        registrationBean.setFilter(timeLimitFilter);
         registrationBean.setOrder(1);
+
         return registrationBean;    
     }
     
