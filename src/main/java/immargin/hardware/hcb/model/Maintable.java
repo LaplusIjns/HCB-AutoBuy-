@@ -34,7 +34,7 @@ public class Maintable {
 	@Column(name="prodname", columnDefinition = "char")
 	private String prodname;
 	
-	@Column(name="lastprice", columnDefinition = "varchar")
+	@Column(name="lastprice", columnDefinition = "longtext")
     private Integer lastprice;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "fkProdId",fetch = FetchType.EAGER)
