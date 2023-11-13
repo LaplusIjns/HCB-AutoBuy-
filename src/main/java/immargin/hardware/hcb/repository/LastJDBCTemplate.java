@@ -18,7 +18,7 @@ public class LastJDBCTemplate {
     @Autowired
     NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     
-    private static String GET_PROD= "SELECT * FROM last_0 WHERE fk_prod_id= :bbb";
+    private static String GET_PROD= "SELECT * FROM last_0 WHERE fk_prod_id= :bbb ORDER BY upload_date ASC";
     private static String GET_DAILY= """
             SELECT m.prodname, f.fk_prod_id,f.upload_date,f.price,f.price-s.price AS diff FROM (`last_0` f,`last_0` s ) INNER JOIN `maintable` m ON m.prod_id = f.fk_prod_id
             WHERE f.upload_date = SUBDATE(CURRENT_DATE, :?1) AND s.upload_date = SUBDATE(CURRENT_DATE, :?2) AND f.fk_prod_id = s.fk_prod_id AND f.price!=s.price UNION
@@ -63,7 +63,7 @@ public class LastJDBCTemplate {
             SELECT m.prodname, f.fk_prod_id,f.upload_date,f.price,f.price-s.price AS diff FROM (`slast_9` f,`slast_9` s ) INNER JOIN `sinyamaintable` m ON m.prod_id = f.fk_prod_id
             WHERE f.upload_date = SUBDATE(CURRENT_DATE, :?1) AND s.upload_date = SUBDATE(CURRENT_DATE, :?2) AND f.fk_prod_id = s.fk_prod_id AND f.price!=s.price
             """;
-    private static String GET_SINYA_PROD= "SELECT * FROM slast_?1 WHERE fk_prod_id= :?2";
+    private static String GET_SINYA_PROD= "SELECT * FROM slast_?1 WHERE fk_prod_id= :?2 ORDER BY upload_date ASC";
     
     public List<LastDTO2> getProd(String index,String name){
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource().addValue("bbb", name);
