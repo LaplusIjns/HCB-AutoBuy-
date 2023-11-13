@@ -171,3 +171,8 @@ ul.ui-autocomplete {
 .dropdown-toggle:hover .dropdown-menu:hover {
 	display: block !important;
 }
+
+.form-check-input-danger[type='checkbox']:checked {
+  background-color: red !important;
+  border-color: red !important;
+}
