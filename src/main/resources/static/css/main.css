@@ -66,8 +66,7 @@ a:active {
 
 .nav-item:hover {
 	background-color: var(--bs-gray-600);
-	box-shadow: 0 8px 16px 0 var(--bs-gray-800), 0 12px 40px 0
-		var(--bs-gray-600);
+	box-shadow: 0 8px 16px 0 var(--bs-gray-800), 0 12px 40px 0 var(--bs-gray-600);
 }
 
 .offcanvasheadcolor {
@@ -110,7 +109,7 @@ a {
 .footeroptions {
 	/* 	bottom: 50px !important; */
 	/* 	margin-bottom:20% !important; */
-	
+
 }
 
 .page-link {
@@ -131,12 +130,12 @@ a {
 
 .page-item {
 	/* 	color: var(--bs-gray-700)!important ; */
-	
+
 }
 
 .pagination {
 	/* 	background-color: var(--bs-gray-700) ; */
-	
+
 }
 
 .SelectProduct {
@@ -149,6 +148,7 @@ ul.ui-autocomplete {
 	width: 40%;
 	overflow-y: scroll;
 }
+
 /* li.ui-menu-item{ */
 /* 	margin: 64px !important; */
 /* } */
@@ -173,6 +173,6 @@ ul.ui-autocomplete {
 }
 
 .form-check-input-danger[type='checkbox']:checked {
-  background-color: red !important;
-  border-color: red !important;
+	background-color: red !important;
+	border-color: red !important;
 }

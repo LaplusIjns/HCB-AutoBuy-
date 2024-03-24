@@ -45,7 +45,7 @@ public class BlacklistFilter extends OncePerRequestFilter {
         String realIP =  IpUtils.getIpAddr(request);
         
         
-        log.info("request ip : {} ,uri: {}",realIP,request.getRequestURI());
+//        log.info("request ip : {} ,uri: {}",realIP,request.getRequestURI());
         
         if(request.getMethod().equals("PROPFIND") ) {
             response.sendRedirect(Constant.BAN_PATH);
@@ -63,7 +63,7 @@ public class BlacklistFilter extends OncePerRequestFilter {
             log.info("錯誤路徑 預備BanIP: {} ,uri: {}",realIP,request.getRequestURI());
             blacklistService.findById(realIP).ifPresentOrElse(
                     blacklistvar -> {
-                        if (CommoUtils.getDayFromTwoDate(new Date(), blacklistvar.getUpdateTime()) <= Constant.TIME_INTERVAL ) {
+                        if (CommonUtils.getDayFromTwoDate(new Date(), blacklistvar.getUpdateTime()) <= Constant.TIME_INTERVAL ) {
                             blacklistService.update(blacklistvar,request.getRequestURI());
                         }
                     },

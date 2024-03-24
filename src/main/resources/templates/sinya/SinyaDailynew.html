@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="zh-TW" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{comp/layout}">
+
+<head>
+	<base th:href="@{/SinyaDailynew}">
+	<script src="../../static/js/Sinyadailynew.js" th:src="@{/js/Sinyadailynew.js}" type="text/javascript"></script>
+	<title>每日新增</title>
+</head>
+
+<body>
+	<section layout:fragment="content">
+		<div th:replace="~{comp/main.html::dailynew1}">主體</div>
+	</section>
+</body>
+
+</html>

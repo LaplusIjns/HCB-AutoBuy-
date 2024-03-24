@@ -16,7 +16,7 @@ import immargin.hardware.hcb.DTO.FormData;
 import immargin.hardware.hcb.DTO.MaintableDTO;
 import immargin.hardware.hcb.DTO.SinyaFormDTO;
 import immargin.hardware.hcb.DTO.TagDTO;
-import immargin.hardware.hcb.model.SinyaTagprod;
+import immargin.hardware.hcb.config.Constant;
 import immargin.hardware.hcb.model.Sinyamaintable;
 
 
@@ -37,59 +37,35 @@ public class SinyaMaintableService {
     
     // 分析 getSinyablurSearchMaintable 結果
     public List<SinyaFormDTO> parseSinyablurSearchMaintable(Page<Sinyamaintable> sinyamaintablePage){
-        List<Sinyamaintable> Result = null;
-        List<SinyaFormDTO> sinyaFormDTOList = new ArrayList<>();
-        Result = sinyamaintablePage.getContent();
-        
-        for (Sinyamaintable sinyamaintable : Result) {
-            SinyaFormDTO sinyaFormDTO = new SinyaFormDTO(sinyamaintable.getProdname(), sinyamaintable.getProdId(), null, null, null);
-            sinyaFormDTOList.add(sinyaFormDTO);
-        }
-        return sinyaFormDTOList;
+        return sinyamaintablePage.getContent().stream().map(t -> new SinyaFormDTO(t.getProdname(), t.getProdId(), null, null, null) ).toList();
         
     }
     
 
     
     public Optional<MaintableDTO> SinyagetProdname(String id) {
-        Optional<MaintableDTO> result = null;
-        result = sinyaMaintableRepository.SinyafindMaintableDTOByProd_id(id);
-        return result;
+        return sinyaMaintableRepository.SinyafindMaintableDTOByProd_id(id);
     }
-    @Cacheable(value="SinyaDailyNew", key="#cacheDateString", unless=" (#cacheDateString.equals(#nowString)) ")
-    public List<MaintableDTO> SinyaDailyNew(Integer index,String cacheDateString,String nowString){
-        List<MaintableDTO> Result = null;
-        Result = sinyaMaintableRepository.SinyaDailyNew(index);
-        return Result;
+    @Cacheable(value="SinyaDailyNew", key="#cacheDateString",cacheManager = Constant.CACHE_DAILY)
+    public List<MaintableDTO> SinyaDailyNew(Integer index,String cacheDateString){
+        return sinyaMaintableRepository.SinyaDailyNew(index);
     }
     
     public Page<Sinyamaintable> getSinyamaintablePage(FormData formData){
         
         //formData.getpage
         Pageable pageable=PageRequest.of(formData.getPage()-1, 20);
-//        SinyaFormSpecification sinyaSpecification = new SinyaFormSpecification(formData);
-//        System.out.println( sinyaSpecification.toString() );
-        Page<Sinyamaintable> findall = sinyaMaintableRepository.findAll(SinyaMaintableRepository.SinyaFormSpecification(formData),pageable);
-        return findall;
+        return sinyaMaintableRepository.findAll(SinyaMaintableRepository.SinyaFormSpecification(formData),pageable);
     }
     
     public List<SinyaFormDTO> parseSinyamaintablePage(Page<Sinyamaintable> sinyamaintablePage) {
-        List<Sinyamaintable> Result = null;
-        List<SinyaFormDTO> sinyaFormDTOList = new ArrayList<>();
-        Result = sinyamaintablePage.getContent();
-//        System.out.println(Result);
-        
-        for (Sinyamaintable sinyamaintable : Result) {
-            List<SinyaTagprod> sinyaTagprods = sinyamaintable.getSinyaTagprods();
-            List<TagDTO> tagnameDTOList = new ArrayList<>(); 
-            for (SinyaTagprod sinyaTagprod : sinyaTagprods) {
-               TagDTO tmpParam = new TagDTO(sinyaTagprod.getSinyaTagcompares().getTagID(), sinyaTagprod.getSinyaTagcompares().getTagzhtw());
-               tagnameDTOList.add(tmpParam);
-            }
-            SinyaFormDTO sinyaFormDTO = new SinyaFormDTO(sinyamaintable.getProdname(), sinyamaintable.getProdId(), sinyamaintable.getLastprice(), sinyamaintable.getLastUpdateDate(), tagnameDTOList);
-            sinyaFormDTOList.add(sinyaFormDTO);
-        }
-        return sinyaFormDTOList;
+
+        List<Sinyamaintable> result = sinyamaintablePage.getContent();
+        return result.stream().map(sinyamaintable ->{
+            List<TagDTO> tagnameDTOList = sinyamaintable.getSinyaTagprods().stream()
+                    .map(sinyaTagprod -> new TagDTO(sinyaTagprod.getSinyaTagcompares().getTagID(), sinyaTagprod.getSinyaTagcompares().getTagzhtw()) ).toList();
+            return new SinyaFormDTO(sinyamaintable.getProdname(), sinyamaintable.getProdId(), sinyamaintable.getLastprice(), sinyamaintable.getLastUpdateDate(), tagnameDTOList);
+        } ).toList();
     }
     
     

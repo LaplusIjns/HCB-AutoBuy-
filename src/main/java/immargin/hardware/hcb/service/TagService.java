@@ -22,23 +22,17 @@ public class TagService {
 //  Autobuy
     //搜尋產品ID找到TAG
     public List<TagnameDTO> SearchbyProdname(String name){
-        List<TagnameDTO> result = null;
-        result = tagRepository.findByProdName(name);
-        return result;
+        return tagRepository.findByProdName(name);
     }
     //搜尋tag找id
     public List<MaintableDTO> SearchbyTagname(String name,Integer page,Integer size){
-        List<MaintableDTO> result = null;
         Pageable pageable=PageRequest.of(page, size);
-        result = tagRepository.findByTagName(name,pageable).getContent();
-        return result;
+        return tagRepository.findByTagName(name,pageable).getContent();
     }
     //搜尋tag總元素
     public Page<MaintableDTO> AutobuyTagPage(String name,Integer page,Integer size){
-        Page<MaintableDTO> pageResult = null;
         Pageable pageable=PageRequest.of(page, size);
-        pageResult = tagRepository.findByTagName(name, pageable);
-        return pageResult;
+        return tagRepository.findByTagName(name, pageable);
     }
     public Optional<TagnameDTO> getTagname(String name){
         Optional<TagnameDTO> result = null;
@@ -48,30 +42,22 @@ public class TagService {
 //    Sinya
   //搜尋產品ID找到TAG
     public List<TagnameDTO> SinyaSearchbyProdname(String name){
-        List<TagnameDTO> result = null;
-        result = tagRepository.SinyafindByProdName(name);
-        return result;
+        return tagRepository.SinyafindByProdName(name);
     }
     //搜尋tag找id
     public List<MaintableDTO> SinyaSearchbyTagname(String name,Integer page,Integer size){
-        List<MaintableDTO> result = null;
         Pageable pageable=PageRequest.of(page, size);
-        result = tagRepository.SinyafindByTagName(name,pageable).getContent();
-        return result;
+        return tagRepository.SinyafindByTagName(name,pageable).getContent();
     }
 
   //搜尋tag總元素
     public Page<MaintableDTO> SinyaTagPage(String name,Integer page,Integer size){
-        Page<MaintableDTO> pageResult = null;
         Pageable pageable=PageRequest.of(page, size);
-        pageResult = tagRepository.SinyafindByTagName(name, pageable);
-        return pageResult;
+        return tagRepository.SinyafindByTagName(name, pageable);
     }
     
     
     public Optional<TagnameDTO> SinyagetTagname(String name){
-        Optional<TagnameDTO> result = null;
-        result = tagRepository.SinyafindTagnameByfk_tag(name);
-        return result;
+        return tagRepository.SinyafindTagnameByfk_tag(name);
     }
 }

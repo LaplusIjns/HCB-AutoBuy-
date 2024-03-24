@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<!-- Google tag (gtag.js) -->
+	<meta th:replace="~{comp/library::googletag}" />
+	<meta charset="UTF-8">
+	<base th:href="@{/}">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="../../static/css/main.css" th:href="@{/css/main.css}" />
+	<meta th:replace="~{comp/library::maincss}" />
+	<!-- JS -->
+	<meta th:replace="~{comp/library::mainjs}" />
+	<script src="../../static/js/main.js" th:src="@{/js/main.js}" type="text/javascript"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+
+	<title>產品頁</title>
+</head>
+
+<body>
+	<main class="bgcolor text-white">
+		<nav th:replace="~{comp/header.html::header2}">
+			這裡是置頂
+		</nav>
+		<row class="row container-fluid ">
+			<div class="col-sm-7 col-md-3  p-md-3 p-sm-1 col-12">
+				<a href="/Autobuy" class="fs-3 btn btn-primary my-2"><i class="bi bi-reply-fill"></i></a><br />
+				<span id="hellohowareyou" class="my-2">123</span>
+				<div id="historylow" class="my-2">歷史最低:　</div>
+				<div id="historyhigh" class="my-2">歷史最高:　</div>
+				<div id="lastupdate" class="my-2">最後更新:　</div>
+				<div class="my-2">標籤僅供參考</div>
+				<div id="tagsection" class="my-2">Tag</div>
+			</div>
+			<div class="col-sm-10 col-md-9 p-md-5 p-sm-1  col-12">
+				<canvas id="myChart"></canvas>
+			</div>
+
+		</row>
+		<footer th:replace="~{comp/footer::footer1}"> 這裡是置底 </footer>
+	</main>
+
+	<script src="../../static/js/Product.js" th:src="@{/js/Product.js}" type="text/javascript"></script>
+</body>
+
+</html>

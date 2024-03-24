@@ -13,48 +13,48 @@ public class RoutingController {
 		
 	@GetMapping({"/Autobuy"})
     public String home2() {
-        return "Autobuy";
+        return "autobuy/Autobuy";
     }
 	
 	@GetMapping({"/Product"})
     public String prod() {
-        return "Product";
+        return "autobuy/Product";
     }
 		
 	@GetMapping({"/tag"})
     public String tag() {
-        return "tag";
+        return "autobuy/tag";
     }
 	@GetMapping({"/AutobuyDaily"})
     public String daily() {
-        return "AutobuyDaily";
+        return "autobuy/AutobuyDaily";
     }
 	@GetMapping({"/Dailynew"})
     public String dailynew() {
-        return "Dailynew";
+        return "autobuy/Dailynew";
     }
 //	Sinya
 	@GetMapping({"/Sinya"})
     public String sinyaHome() {
-        return "Sinyaindex";
+        return "sinya/Sinyaindex";
     }
     
     @GetMapping({"/SinyaProduct"})
     public String sinyaprod() {
-        return "SinyaProduct";
+        return "sinya/SinyaProduct";
     }
     
     @GetMapping({"/Sinyatag"})
     public String sinyatag() {
-        return "Sinyatag";
+        return "sinya/Sinyatag";
     }
     @GetMapping({"/SinyaDaily"})
     public String sinyaDaily() {
-        return "SinyaDaily";
+        return "sinya/SinyaDaily";
     }
     @GetMapping({"/SinyaDailynew"})
     public String sinyaDailynew() {
-        return "SinyaDailynew";
+        return "sinya/SinyaDailynew";
     }
     
     @GetMapping({"/banip"})

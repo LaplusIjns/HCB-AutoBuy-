@@ -12,12 +12,13 @@ import org.springframework.stereotype.Repository;
 import immargin.hardware.hcb.DTO.MaintableDTO;
 import immargin.hardware.hcb.DTO.TagnameDTO;
 import immargin.hardware.hcb.model.TagRelationshipId;
+import immargin.hardware.hcb.model.TagRelationshipId2;
 import immargin.hardware.hcb.model.Tagprod;
 
 
 
 @Repository
-public interface TagRepository extends JpaRepository<Tagprod,TagRelationshipId> {
+public interface TagRepository extends JpaRepository<Tagprod,TagRelationshipId2> {
 //  AutoBuy
     @Query(value="SELECT t.fk_tag,y.tag_zhtw from tag_prod t INNER JOIN tag_compare y ON y.tag_id = t.fk_tag WHERE t.fk_prod_id = ?1",nativeQuery = true)
     List<TagnameDTO> findByProdName(String name);

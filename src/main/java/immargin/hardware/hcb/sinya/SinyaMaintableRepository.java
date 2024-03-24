@@ -36,7 +36,7 @@ public interface SinyaMaintableRepository extends JpaRepository<Sinyamaintable,S
              *  Boolean expiredProd,filterProd 尚未實裝
              */
             Path<Date> initalDate = root.get("initalDate");
-            Path<String> prodId = root.get("prodId");
+//            Path<String> prodId = root.get("prodId");
             Path<Date> lastUpdateDate = root.get("lastUpdateDate");
 //            Path<Integer> prodavailable = root.get("prodavailable");
             Path<String> prodname = root.get("prodname");
@@ -63,19 +63,17 @@ public interface SinyaMaintableRepository extends JpaRepository<Sinyamaintable,S
             }
             
             if(formData.getProdName()!=null) {
-                String[] newStr = formData.getProdName().split("\\s+");
-                for(int i = 0; i<newStr.length;i++) {
-                    Predicate predicate = criteriaBuilder.like(prodname,Constant.PERCENT+newStr[i]+Constant.PERCENT);
-                    predicateList.add(predicate);    
-                }
+                predicateList.addAll(
+                List.of(formData.getProdName().split("\\s+")).stream().map(t -> criteriaBuilder.like(prodname,Constant.PERCENT+t+Constant.PERCENT) ).toList()
+                );
             }
             
             if(formData.getMinPrice()!=null) {
-                Predicate predicate1 = criteriaBuilder.greaterThanOrEqualTo(lastprice,  Integer.valueOf( formData.getMinPrice() ) );
+                Predicate predicate1 = criteriaBuilder.greaterThanOrEqualTo(lastprice,  formData.getMinPrice() );
                 predicateList.add(predicate1);
             }
             if(formData.getMaxPrice()!=null) {
-                Predicate predicate2 = criteriaBuilder.lessThanOrEqualTo(lastprice, Integer.valueOf( formData.getMaxPrice() ) );
+                Predicate predicate2 = criteriaBuilder.lessThanOrEqualTo(lastprice, formData.getMaxPrice() );
                 predicateList.add(predicate2);
             }
             if(formData.getEndUpdate()!=null) {
@@ -105,30 +103,35 @@ public interface SinyaMaintableRepository extends JpaRepository<Sinyamaintable,S
             List<Order> orderlist = new ArrayList<>();
             
             if( formData.getSortStrategy() != null ) {
+                Order order;
                 for (String string : formData.getSortStrategy()) {
-                    if(string.equals("a")) {
-                        Order order = criteriaBuilder.desc(lastprice.as(Integer.class));
-                        orderlist.add(order);
-                    }
-                    if(string.equals("b")) {
-                        Order order = criteriaBuilder.asc(lastprice.as(Integer.class));
-                        orderlist.add(order);
-                    }
-                    if(string.equals("c")) {
-                        Order order = criteriaBuilder.desc(lastUpdateDate.as(Date.class));
-                        orderlist.add(order);
-                    }
-                    if(string.equals("d")) {
-                        Order order = criteriaBuilder.asc(lastUpdateDate.as(Date.class));
-                        orderlist.add(order);
-                    }
-                    if(string.equals("e")) {
-                        Order order = criteriaBuilder.desc(initalDate.as(Date.class));
-                        orderlist.add(order);
-                    }
-                    if(string.equals("f")) {
-                        Order order = criteriaBuilder.asc(initalDate.as(Date.class));
-                        orderlist.add(order);
+                    switch (string.toLowerCase()) {
+                        case "a":
+                            order = criteriaBuilder.desc(lastprice.as(Integer.class));
+                            orderlist.add(order);
+                            break;
+                        case "b":
+                            order = criteriaBuilder.asc(lastprice.as(Integer.class));
+                            orderlist.add(order);
+                            break;
+                        case "c":
+                             order = criteriaBuilder.desc(lastUpdateDate.as(Date.class));
+                            orderlist.add(order);
+                            break;
+                        case "d":
+                            order = criteriaBuilder.asc(lastUpdateDate.as(Date.class));
+                            orderlist.add(order);
+                            break;
+                        case "e":
+                            order = criteriaBuilder.desc(initalDate.as(Date.class));
+                            orderlist.add(order);
+                            break;
+                        case "f":
+                            order = criteriaBuilder.asc(initalDate.as(Date.class));
+                            orderlist.add(order);
+                            break;
+                        default:
+                            break;
                     }
                 }
             }
@@ -141,23 +144,7 @@ public interface SinyaMaintableRepository extends JpaRepository<Sinyamaintable,S
     public static Specification<Sinyamaintable> SinyaFindByNameSpecification(String prodnames){
         return(root,query,criteriaBuilder)->{
             Path<String> prodname = root.get("prodname");
-            String[] newStr = prodnames.split("\\s+");
-            
-            List<Predicate> predicateList = new ArrayList<>();
-            Predicate result = null;
-            
-            for(int i = 0; i<newStr.length;i++) {
-                Predicate predicate = criteriaBuilder.like(prodname,Constant.PERCENT+newStr[i]+Constant.PERCENT);
-                predicateList.add(predicate);    
-            }
-            
-            Predicate[] predicateArray = new Predicate[predicateList.size()];
-            for(int i=0;i<predicateList.size();i++) {
-                predicateArray[i] = predicateList.get(i);
-            }
-            
-            result = criteriaBuilder.and(predicateArray);
-            return result;
+            return criteriaBuilder.and(List.of(prodnames.split("\\s+")).stream().map(t -> criteriaBuilder.like(prodname,Constant.PERCENT+t+Constant.PERCENT) ).toArray(Predicate[]::new)); 
         };
     }
 	

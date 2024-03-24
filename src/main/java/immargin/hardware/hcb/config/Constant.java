@@ -15,4 +15,7 @@ public class Constant {
     public static final String ERROR_PATH = "/".concat("error");
     public static final String BAN_PATH = "/".concat("banip");
     public static final String PERCENT = "%";
+    
+    public static final String CACHE_DAILY = "caffeineCacheManagerDaily";
+    public static final String CACHE_PRICE = "caffeineCacheManagerPrice";
 }

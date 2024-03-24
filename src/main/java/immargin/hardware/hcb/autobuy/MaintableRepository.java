@@ -34,13 +34,8 @@ public interface MaintableRepository extends JpaRepository<Maintable,String>,Jpa
 	public static Specification<Maintable> AutobuyFindByNameSpecification(String prodnames){
 	    return (root, query, builder) -> {
 	        Path<String> prodname = root.get("prodname");
-	        String[] newStr = prodnames.split("\\s+");
-	        Predicate[] predicateArray2 = new Predicate[newStr.length];
-	        for(int i=0; i<predicateArray2.length; i++) {
-	            predicateArray2[i] = builder.like(prodname,  Constant.PERCENT.concat(newStr[i]).concat(Constant.PERCENT));
-	        }
-
-	        return builder.and(predicateArray2);	        
+	        Predicate[] predicates = List.of(prodnames.split("\\s+")).stream().map(t -> builder.like(prodname,Constant.PERCENT.concat(t).concat(Constant.PERCENT)) ).toArray(Predicate[]::new);
+	        return builder.and(predicates);	        
 	    };
 	}
 	
@@ -63,32 +58,32 @@ public interface MaintableRepository extends JpaRepository<Maintable,String>,Jpa
 	        //             false 等同 不移除全展示 不用作條件判斷
 	        
 	        if(formData.getExpiredProd()!=null) {
-	            if(formData.getExpiredProd().booleanValue()==true) {
+	            if(formData.getExpiredProd().booleanValue()) {
 	                Predicate predicate = builder.equal(prodavailable, 1);
 	                predicateList.add(predicate);  
 	            }       
 	        }
 	        // 用於當商品標記為無貨改為有貨時更新使用
 	        if(formData.getInsideMode()!=null) {
-	            if(formData.getInsideMode().booleanValue()==true) {
+	            if(formData.getInsideMode().booleanValue()) {
 	                Predicate predicate = builder.equal(prodavailable, 0);
 	                predicateList.add(predicate);  
 	            }       
 	        }
 	        
 	        if(formData.getProdName()!=null) {
-	            String[] newStr = formData.getProdName().split("\\s+");
-	            for(int i = 0; i<newStr.length;i++) {
-	                predicateList.add( builder.like(prodname,  Constant.PERCENT.concat(newStr[i]).concat(Constant.PERCENT)) );    
-	            }
+	            predicateList.addAll(
+	            List.of(formData.getProdName().split("\\s+")).stream().map( t -> builder.like(prodname,Constant.PERCENT.concat(t).concat(Constant.PERCENT)) ).toList()
+	            );
+	            
 	        }
 	        
 	        if(formData.getMinPrice()!=null) {
-	            Predicate predicate1 = builder.greaterThanOrEqualTo(lastprice,  Integer.valueOf( formData.getMinPrice() ) );
+	            Predicate predicate1 = builder.greaterThanOrEqualTo(lastprice,  formData.getMinPrice() );
 	            predicateList.add(predicate1);
 	        }
 	        if(formData.getMaxPrice()!=null) {
-	            Predicate predicate2 = builder.lessThanOrEqualTo(lastprice, Integer.valueOf( formData.getMaxPrice() ) );
+	            Predicate predicate2 = builder.lessThanOrEqualTo(lastprice, formData.getMaxPrice() );
 	            predicateList.add(predicate2);
 	        }
 	        if(formData.getEndUpdate()!=null) {

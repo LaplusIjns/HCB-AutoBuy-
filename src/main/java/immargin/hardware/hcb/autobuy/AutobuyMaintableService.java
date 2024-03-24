@@ -1,7 +1,6 @@
 package immargin.hardware.hcb.autobuy;
 
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,8 +18,8 @@ import immargin.hardware.hcb.DTO.FormData;
 import immargin.hardware.hcb.DTO.MaintableDTO;
 import immargin.hardware.hcb.DTO.SinyaFormDTO;
 import immargin.hardware.hcb.DTO.TagDTO;
+import immargin.hardware.hcb.config.Constant;
 import immargin.hardware.hcb.model.Maintable;
-import immargin.hardware.hcb.model.Tagprod;
 
 
 @Service
@@ -28,7 +27,7 @@ public class AutobuyMaintableService {
 	
 	
 	@Autowired
-	private MaintableRepository maintableRepository;
+	MaintableRepository maintableRepository;
 	
 //	AutoBuy
 	//搜尋欄
@@ -45,57 +44,32 @@ public class AutobuyMaintableService {
 	
 	// 分析 getAutobuyblurSearchMaintable 結果
     public List<SinyaFormDTO> parseAutobuyblurSearchMaintable(Page<Maintable> maintablePage){
-        List<Maintable> Result = null;
-        List<SinyaFormDTO> sinyaFormDTOList = new ArrayList<>();
-        Result = maintablePage.getContent();
-        
-        for (Maintable maintable : Result) {
-            SinyaFormDTO sinyaFormDTO = new SinyaFormDTO(maintable.getProdname(), maintable.getProdId(), null, null, null);
-            sinyaFormDTOList.add(sinyaFormDTO);
-        }
-        return sinyaFormDTOList;
+        return maintablePage.getContent().stream().map(maintable -> new SinyaFormDTO(maintable.getProdname(), maintable.getProdId(), null, null, null)).toList();
         
     }
     
-    public Optional<MaintableDTO> AutobuygetProdname(String id) {
-        Optional<MaintableDTO> result = null;
-        result = maintableRepository.findMaintableDTOByProdId(id);
-        return result;
+    public Optional<MaintableDTO> autobuygetProdname(String id) {
+        return maintableRepository.findMaintableDTOByProdId(id);
     }
     
    public Page<Maintable> getAutobuymaintablePage(FormData formData){
-        
-        //formData.getpage
         Pageable pageable=PageRequest.of(formData.getPage()-1, 20);
-//        System.out.println( sinyaSpecification.toString() );
-        Page<Maintable> findall = maintableRepository.findAll(MaintableRepository.AutobuyFormSpecification(formData),pageable);
-        return findall;
+        return maintableRepository.findAll(MaintableRepository.AutobuyFormSpecification(formData),pageable);
     }
 	
     public List<SinyaFormDTO> parseAutobuymaintablePage(Page<Maintable> autobuymaintablePage) {
-        List<Maintable> Result = null;
-        List<SinyaFormDTO> autobuyFormDTOList = new ArrayList<>();
-        Result = autobuymaintablePage.getContent();
-        
-        for (Maintable sinyamaintable : Result) {
-            List<Tagprod> sinyaTagprods = sinyamaintable.getTagprods();
-            List<TagDTO> tagnameDTOList = new ArrayList<>(); 
-            for (Tagprod sinyaTagprod : sinyaTagprods) {
-               TagDTO tmpParam = new TagDTO(sinyaTagprod.getTagcompares().getTagID(), sinyaTagprod.getTagcompares().getTagzhtw());
-               tagnameDTOList.add(tmpParam);
-            }
-            SinyaFormDTO sinyaFormDTO = new SinyaFormDTO(sinyamaintable.getProdname(), sinyamaintable.getProdId(), sinyamaintable.getLastprice(), sinyamaintable.getLastUpdateDate(), tagnameDTOList);
-            autobuyFormDTOList.add(sinyaFormDTO);
-        }
-        return autobuyFormDTOList;
+        List<Maintable> result = null;
+        result = autobuymaintablePage.getContent();
+        return result.stream().map(maintable -> {
+            List<TagDTO> tagnameDTOList = maintable.getTagprods().stream().map(tagprod -> new TagDTO(tagprod.getTagcompares().getTagID(),tagprod.getTagcompares().getTagzhtw()) ).toList();
+            return new SinyaFormDTO(maintable.getProdname(), maintable.getProdId(), maintable.getLastprice(), maintable.getLastUpdateDate(), tagnameDTOList);
+        } ).toList();
     }
 	
 	
-	@Cacheable(value="DailyNew", key="#cacheDateString", unless=" (#cacheDateString.equals(#nowString)) ")
-    public List<MaintableDTO> DailyNew(Integer index,String cacheDateString,String nowString){
-        List<MaintableDTO> Result = null;
-        Result = maintableRepository.dailyNew(index);
-        return Result;
+	@Cacheable(value="DailyNew", key="#cacheDateString", cacheManager=Constant.CACHE_DAILY )
+    public List<MaintableDTO> dailyNew(Integer index,String cacheDateString){
+        return maintableRepository.dailyNew(index);
     }
 	
 

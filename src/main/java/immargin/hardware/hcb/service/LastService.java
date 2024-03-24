@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import immargin.hardware.hcb.DTO.DailyDTO2;
 import immargin.hardware.hcb.DTO.LastDTO2;
+import immargin.hardware.hcb.config.Constant;
 import immargin.hardware.hcb.repository.LastJDBCTemplate;
 
 @Service
@@ -22,30 +23,22 @@ public class LastService {
 //	AutoBuy
 	public List<LastDTO2> getProd(String prodname){
 	    String lastone = prodname.substring(prodname.length()-1);
-		List<LastDTO2> result = null;
-		result = lastJDBCTemplate.getProd("last_".concat(lastone), prodname);
-		return result;
+		return lastJDBCTemplate.getProd("last_".concat(lastone), prodname);
 	}
-	   @Cacheable(value="getDaily", key="#cacheDateString", unless=" (#cacheDateString.equals(#nowString)) ")
-	   public List<DailyDTO2> getDaily(Integer index,String cacheDateString,String nowString){
+	   @Cacheable(value="getDaily", key="#cacheDateString", cacheManager = Constant.CACHE_DAILY)
+	   public List<DailyDTO2> getDaily(Integer index,String cacheDateString){
 	        int index2 = index+1;
-	        List<DailyDTO2> result = null;
-	        result = lastJDBCTemplate.getDaily(index, index2);
-	        return result;
+	        return lastJDBCTemplate.getDaily(index, index2);
 	    }
 //	Sinya
 	public List<LastDTO2> SinyagetProd(String prodname){
         String lastone = prodname.substring(prodname.length()-1);
-        List<LastDTO2> result = null;
-        result = lastJDBCTemplate.getSinyaProd("slast_".concat(lastone), prodname);
-        return result;
+        return lastJDBCTemplate.getSinyaProd("slast_".concat(lastone), prodname);
     }
-	@Cacheable(value="getSinyaDaily", key="#cacheDateString", unless=" (#cacheDateString.equals(#nowString)) ")
-	public List<DailyDTO2> getSinyaDaily(Integer index,String cacheDateString,String nowString){
+	@Cacheable(value="getSinyaDaily", key="#cacheDateString", cacheManager = Constant.CACHE_DAILY)
+	public List<DailyDTO2> getSinyaDaily(Integer index,String cacheDateString){
         int index2 = index+1;
-        List<DailyDTO2> result = null;
-        result = lastJDBCTemplate.getSinyaDaily(index, index2);
-        return result;
+        return lastJDBCTemplate.getSinyaDaily(index, index2);
     }
 	
 }
